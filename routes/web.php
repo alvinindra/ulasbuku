@@ -16,7 +16,7 @@ use App\Http\Controllers\PageController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('login', [AuthController::class, 'indexLogin'])->name('login');
@@ -24,3 +24,6 @@ Route::get('register', [AuthController::class, 'indexRegister'])->name('register
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
