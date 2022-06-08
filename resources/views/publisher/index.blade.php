@@ -30,7 +30,7 @@
   <tbody>
       @foreach ($publisher as $data)
     <tr>
-      <th scope="row">{{ $data->id }}</th>
+      <th scope="row">{{ ++$i }}</th>
       <td>{{ $data->name_publisher}}</td>
       <td>
       <form action="{{ route('publisher.destroy',$data->id) }}" method="POST">

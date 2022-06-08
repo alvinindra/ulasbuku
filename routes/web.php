@@ -7,6 +7,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +26,7 @@ Route::get('/', function () {
 
 // Route::get('login', [AuthController::class, 'indexLogin'])->name('login');
 // Route::get('register', [AuthController::class, 'indexRegister'])->name('register');
-// Route::get('admin',  [AdminController::class, 'index'])->name('admin');
+Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 // Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
 // Auth::routes();
@@ -55,3 +57,5 @@ Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::c
 Route::resource('category', CategoryController::class);
 Route::resource('author', AuthorController::class);
 Route::resource('publisher', PublisherController::class);
+Route::resource('book', BookController::class);
+Route::resource('review', ReviewController::class);
