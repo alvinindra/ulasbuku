@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Author;
+use App\Models\Review;
 
-class AuthorController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $author = Author::paginate(10);
-        return view('author.index',compact('author'))->with('i', (request()->input('page', 1) -1) * 10);
+        $review = Review::with('book','user')->get();
+        return view('review.index',compact('review'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -26,7 +26,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('author.create');
+        //
     }
 
     /**
@@ -37,12 +37,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name_author' => 'required',
-        ]);
-        Author::create($request->all());
-
-        return redirect()->route('author.index')->with('succes','Data Berhasil di Input');
+        //
     }
 
     /**
@@ -64,8 +59,7 @@ class AuthorController extends Controller
      */
     public function edit($id)
     {
-        $author = Author::findOrFail($id);
-        return view('author.edit', compact('author'));
+        //
     }
 
     /**
@@ -75,15 +69,9 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name_author' => 'required',
-        ]);
-
-        $author->update($request->all());
-
-        return redirect()->route('author.index')->with('succes','Author Berhasil di Update');
+        //
     }
 
     /**
@@ -94,7 +82,6 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-        if(!Author::destroy($id)) return redirect()->back();
-        return redirect()->route('author.index')->with('succes','Author Berhasil di Hapus');
+        //
     }
 }

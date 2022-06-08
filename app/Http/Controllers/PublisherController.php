@@ -16,7 +16,7 @@ class PublisherController extends Controller
     public function index()
     {
         $publisher = Publisher::paginate(10);
-        return view('publisher.index',compact('publisher'));
+        return view('publisher.index',compact('publisher'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -83,7 +83,7 @@ class PublisherController extends Controller
 
         $category->update($request->all());
 
-        return redirect()->route('publisher.index')->with('success','Publisher Berhasil di Update');
+        return redirect()->route('publisher.index')->with('succes','Publisher Berhasil di Update');
     }
 
     /**
@@ -95,6 +95,6 @@ class PublisherController extends Controller
     public function destroy($id)
     {
         if(!Publisher::destroy($id)) return redirect()->back();
-        return redirect()->route('publisher.index')->with('success','Publisher Berhasil di Hapus');
+        return redirect()->route('publisher.index')->with('succes','Publisher Berhasil di Hapus');
     }
 }

@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::paginate(10);
-        return view('category.index',compact('category'));
+        return view('category.index',compact('category'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -95,6 +95,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         if(!Category::destroy($id)) return redirect()->back();
-        return redirect()->route('category.index')->with('success','Category Berhasil di Hapus');
+        return redirect()->route('category.index')->with('succes','Category Berhasil di Hapus');
     }
 }
