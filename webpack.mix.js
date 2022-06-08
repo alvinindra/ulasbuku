@@ -22,7 +22,7 @@ mix.webpackConfig({
         }
     }
 })
-
+mix.js('resources/js/app.be.js', 'public/js').vue()
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
