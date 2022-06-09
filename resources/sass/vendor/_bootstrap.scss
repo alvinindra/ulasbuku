@@ -1,4 +1,9 @@
 // Nav
 .nav-link {
- font-family: $ff-title;
+  font-family: $ff-title;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

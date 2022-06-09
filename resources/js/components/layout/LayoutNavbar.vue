@@ -1,29 +1,33 @@
 <template>
 	<header
 		id="layoutHeader"
-		class="p-3 px-md-4 mb-3 bg-white border-bottom box-shadow"
+		class="p-3 px-md-4 sticky-top bg-white shadow-sm box-shadow"
 	>
 		<div class="container d-flex flex-column flex-md-row align-items-center">
-			<h5 class="my-0 font-weight-bold">UlasBuku</h5>
-			<nav class="my-2 my-md-0 mx-auto">
+			<img
+				class="nav-logo"
+				src="/assets/img/logo/logo.png"
+				alt="Logo UlasBuku"
+			>
+			<nav class="my-2 my-md-0 mx-auto d-flex">
 				<a
-					class="p-2 text-dark"
+					class="p-2 text-dark nav-link"
 					href="#"
 				>Home</a>
 				<a
-					class="p-2 text-dark"
+					class="p-2 text-dark nav-link"
 					href="#"
 				>Bestseller</a>
 				<a
-					class="p-2 text-dark"
+					class="p-2 text-dark nav-link"
 					href="#"
 				>Category</a>
 				<a
-					class="p-2 text-dark"
+					class="p-2 text-dark nav-link"
 					href="#"
 				>Author</a>
 				<a
-					class="p-2 text-dark"
+					class="p-2 text-dark nav-link"
 					href="/about"
 				>About</a>
 			</nav>
@@ -34,3 +38,9 @@
 		</div>
 	</header>
 </template>
+
+<style lang="scss" scoped>
+.nav-logo {
+	width: 120px;
+}
+</style>

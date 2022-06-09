@@ -1,7 +1,7 @@
 <template>
 	<section class="container my-5">
 		<div class="title mb-3">
-			<h4 class="font-title">Buku Terbaru</h4>
+			<h3 class="font-title">Buku Terbaru</h3>
 		</div>
 		<div class="row">
 			<div

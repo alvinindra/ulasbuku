@@ -1,5 +1,5 @@
 <template>
-	<section class="container">
+	<section class="container my-4">
 		<div
 			id="carouselExampleIndicators"
 			class="carousel slide"
@@ -15,31 +15,20 @@
 					data-target="#carouselExampleIndicators"
 					data-slide-to="1"
 				></li>
-				<li
-					data-target="#carouselExampleIndicators"
-					data-slide-to="2"
-				></li>
 			</ol>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<img
-						class="d-block w-100"
-						src="https://via.placeholder.com/1920x600.jpg?text=Slide+1"
+						class="d-block w-100 carousel-item__banner"
+						src="/assets/img/slider/slider-1.jpg"
 						alt="First slide"
 					>
 				</div>
 				<div class="carousel-item">
 					<img
-						class="d-block w-100"
-						src="https://via.placeholder.com/1920x600.jpg?text=Slide+2"
+						class="d-block w-100 carousel-item__banner"
+						src="/assets/img/slider/slider-2.jpg"
 						alt="Second slide"
-					>
-				</div>
-				<div class="carousel-item">
-					<img
-						class="d-block w-100"
-						src="https://via.placeholder.com/1920x600.jpg?text=Slide+3"
-						alt="Third slide"
 					>
 				</div>
 			</div>
@@ -78,3 +67,14 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.carousel-item {
+	border-radius: 36px;
+	&__banner {
+		height: 400px;
+		object-fit: cover;
+		border-radius: 36px;
+	}
+}
+</style>
