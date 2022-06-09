@@ -6,9 +6,17 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'Homepage',
-            component: () => import('../pages/home/HomePage.vue'),
+            component: () => import('@pages/HomePage.vue'),
             meta: {
                 title: 'UlasBuku'
+            }
+        },
+        {
+            path: '/book/:id',
+            name: 'DetailBookPage',
+            component: () => import('@pages/DetailBookPage.vue'),
+            meta: {
+                title: 'Rindu Tere Liye - UlasBuku'
             }
         }
     ],
