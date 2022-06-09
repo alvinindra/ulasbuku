@@ -4,15 +4,15 @@
 		class="p-3 px-md-4 sticky-top bg-white shadow-sm box-shadow"
 	>
 		<div class="container d-flex flex-column flex-md-row align-items-center">
-			<img
-				class="nav-logo"
-				src="/assets/img/logo/logo.png"
-				alt="Logo UlasBuku"
-			>
+			<a href="/"><img
+					class="nav-logo"
+					src="/assets/img/logo/logo.png"
+					alt="Logo UlasBuku"
+				></a>
 			<nav class="my-2 my-md-0 mx-auto d-flex">
 				<a
 					class="p-2 text-dark nav-link"
-					href="#"
+					href="/"
 				>Home</a>
 				<a
 					class="p-2 text-dark nav-link"

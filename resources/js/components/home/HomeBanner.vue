@@ -1,5 +1,5 @@
 <template>
-	<section class="container my-4">
+	<section class="container my-5">
 		<div
 			id="carouselExampleIndicators"
 			class="carousel slide"
