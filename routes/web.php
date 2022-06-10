@@ -19,6 +19,8 @@ use App\Http\Controllers\ReviewController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+Route::get('/', function () {
 
 Route::get('/{vue_capture?}', function () {
     return view('index');
@@ -54,8 +56,10 @@ Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::c
 
 //Feature
 //Route::get('/category/index', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+Route::group(['prefix'=>'admin', 'middleware'=>['auth', 'role:admin|member']], function () {
 Route::resource('category', CategoryController::class);
 Route::resource('author', AuthorController::class);
 Route::resource('publisher', PublisherController::class);
 Route::resource('book', BookController::class);
 Route::resource('review', ReviewController::class);
+});

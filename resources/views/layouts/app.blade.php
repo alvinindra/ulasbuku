@@ -26,21 +26,23 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <a class="navbar-brand" href="{{ url('category') }}">
+                @role('admin')
+                <a class="navbar-brand" href="{{ route('category.index') }}">
                     Category
                 </a>
-                <a class="navbar-brand" href="{{ url('author') }}">
+                <a class="navbar-brand" href="{{ route('author.index') }}">
                     Author
                 </a>
-                <a class="navbar-brand" href="{{ url('publisher') }}">
+                <a class="navbar-brand" href="{{ route('publisher.index') }}">
                     Publisher
                 </a>
-                <a class="navbar-brand" href="{{ url('book') }}">
+                <a class="navbar-brand" href="{{ route('book.index') }}">
                     Book
                 </a>
-                <a class="navbar-brand" href="{{ url('review') }}">
+                <a class="navbar-brand" href="{{ route('review.index') }}">
                     Review
                 </a>
+                @endrole
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
