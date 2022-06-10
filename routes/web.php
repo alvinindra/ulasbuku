@@ -21,8 +21,10 @@ use App\Http\Controllers\ReviewController;
 */
 Auth::routes();
 Route::get('/', function () {
+
+Route::get('/{vue_capture?}', function () {
     return view('index');
-});
+})->where('vue_capture', '[\/\w\.-]*');
 
 // Route::get('login', [AuthController::class, 'indexLogin'])->name('login');
 // Route::get('register', [AuthController::class, 'indexRegister'])->name('register');
