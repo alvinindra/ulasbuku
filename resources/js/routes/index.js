@@ -5,7 +5,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            name: 'Homepage',
+            name: 'HomePage',
             component: () => import('@pages/HomePage.vue'),
             meta: {
                 title: 'UlasBuku'
