@@ -9,28 +9,14 @@
 					src="/assets/img/logo/logo.png"
 					alt="Logo UlasBuku"
 				></a>
-			<nav class="my-2 my-md-0 mx-auto d-flex">
-				<a
-					class="p-2 text-dark nav-link"
-					href="/"
-				>Home</a>
-				<a
-					class="p-2 text-dark nav-link"
-					href="#"
-				>Bestseller</a>
-				<a
-					class="p-2 text-dark nav-link"
-					href="#"
-				>Category</a>
-				<a
-					class="p-2 text-dark nav-link"
-					href="#"
-				>Author</a>
-				<a
-					class="p-2 text-dark nav-link"
-					href="/about"
-				>About</a>
-			</nav>
+			<form class="form-inline mx-auto w-100 nav-search my-2 my-md-0">
+				<input
+					class="form-control w-100 badge-pill px-3"
+					type="text"
+					placeholder="Cari Buku, Komik, Novel, dan lainnya..."
+					aria-label="Search"
+				>
+			</form>
 			<a
 				class="btn btn-outline-primary"
 				href="/login"
@@ -42,5 +28,9 @@
 <style lang="scss" scoped>
 .nav-logo {
 	width: 120px;
+}
+
+.nav-search {
+	max-width: 500px;
 }
 </style>
