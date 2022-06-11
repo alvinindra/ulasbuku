@@ -1,6 +1,6 @@
 <template>
 	<section class="container my-5">
-		<div class="title mb-3">
+		<div class="title mb-4">
 			<h3 class="font-title">Buku Terpopuler</h3>
 		</div>
 		<div class="row">
