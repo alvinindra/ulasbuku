@@ -30,8 +30,8 @@
                         </p> --}}
                         
                     </div>
-                    <div class="card-header">
-                        <a role="button" class="customColor btn btn-primary ms-6">Tambah Buku</a>
+                    <div class="card-header customColor">
+                        <a href="{{ route('admin.page.index','formBuku') }}" role="button" class="btn btn-primary ms-6">Tambah Buku</a>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">

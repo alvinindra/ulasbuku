@@ -92,7 +92,7 @@
                                     <a href="{{ route('admin.page.index','tabelReview') }}" class="nav-link">{{ __('Tabel Reviews') }}</a>
                                 </li>
                                 
-                                <li class="nav-item {{ $elementName == 'buttons' ? 'active' : '' }}">
+                                {{-- <li class="nav-item {{ $elementName == 'buttons' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','buttons') }}" class="nav-link">{{ __('Buttons') }}</a>
                                 </li>
                                 <li class="nav-item {{ $elementName == 'cards' ? 'active' : '' }}">
@@ -125,7 +125,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>
@@ -141,7 +141,7 @@
                                 <li class="nav-item {{ $elementName == 'tabelPenulis' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','tabelPenulis') }}" class="nav-link">{{ __('Tabel Penulis') }}</a>
                                 </li>
-                                <li class="nav-item {{ $elementName == 'elements' ? 'active' : '' }}">
+                                {{-- <li class="nav-item {{ $elementName == 'elements' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','elements') }}" class="nav-link">{{ __('Elements') }}</a>
                                 </li>
                                 <li class="nav-item {{ $elementName == 'components' ? 'active' : '' }}">
@@ -149,7 +149,7 @@
                                 </li>
                                 <li class="nav-item {{ $elementName == 'validations' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','validation') }}" class="nav-link">{{ __('Validations') }}</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>

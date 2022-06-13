@@ -31,7 +31,7 @@
                         
                     </div>
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary ms-6">Tambah Kategori</button>
+                        <a href="{{ route('admin.page.index','formKategori') }}" role="button" class="btn btn-primary ms-6">Tambah Kategori</a>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
