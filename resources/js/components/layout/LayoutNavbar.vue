@@ -9,11 +9,16 @@
 					src="/assets/img/logo/logo.png"
 					alt="Logo UlasBuku"
 				></a>
-			<form class="form-inline mx-auto w-100 nav-search my-2 my-md-0">
+			<form
+				class="form-inline mx-auto w-100 nav-search my-2 my-md-0"
+				@submit.prevent="onSearch"
+			>
 				<input
 					class="form-control w-100 badge-pill px-3"
 					type="text"
+					v-model="search"
 					placeholder="Cari Buku, Komik, Novel, dan lainnya..."
+					@change="handleSearch"
 					aria-label="Search"
 				>
 			</form>
@@ -24,6 +29,40 @@
 		</div>
 	</header>
 </template>
+
+<script>
+export default {
+	data() {
+		return {
+			search: "",
+		};
+	},
+	methods: {
+		handleSearch() {
+			const value = this.search;
+			const input = value.charAt(value.length - 1);
+			const letters = /^[A-Za-z\d\-_\s]+$/i;
+			if (value === " ") {
+				this.search = "";
+			}
+
+			if (!input.match(letters)) {
+				this.search = value.substr(0, value.length - 1);
+			}
+		},
+		onSearch() {
+			if (this.search === "") return;
+
+			this.$router.push({
+				name: "ListBookPage",
+				query: {
+					q: this.search,
+				},
+			});
+		},
+	},
+};
+</script>
 
 <style lang="scss" scoped>
 .nav-logo {

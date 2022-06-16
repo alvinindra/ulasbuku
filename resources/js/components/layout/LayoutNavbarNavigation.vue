@@ -21,11 +21,6 @@ export default {
 					url: "/",
 				},
 				{
-					name: "Bestseller",
-					pageName: "BestsellerPage",
-					url: "/bestseller",
-				},
-				{
 					name: "Category",
 					pageName: "CategoryPage",
 					url: "/category",
