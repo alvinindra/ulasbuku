@@ -32,7 +32,7 @@
 							data-toggle="modal"
 							data-target="#exampleModalCenter"
 							class="btn btn-primary"
-						>Review Buku</button>
+						>Ulas Buku</button>
 					</div>
 				</div>
 			</div>

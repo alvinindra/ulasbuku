@@ -8,7 +8,7 @@
 				<div
 					v-for="team in listTeam"
 					:key="team.id"
-					class="col-lg-4 text-center"
+					class="col-lg-4 text-center mb-4"
 				>
 					<div
 						class="card mx-auto"

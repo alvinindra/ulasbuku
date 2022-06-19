@@ -36,6 +36,12 @@ Route::get('/search', function () {
 Route::get('/about', function () {
     return view('frontend.general.about');
 });
+Route::get('/category', function () {
+    return view('frontend.category.list');
+});
+Route::get('/author', function () {
+    return view('frontend.author.list');
+});
 
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');

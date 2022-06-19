@@ -3,7 +3,7 @@
 		<div class="border-bottom mb-3">
 			<h4 class="font-title">Filter</h4>
 		</div>
-		<div class="px-2">
+		<div class="d-block">
 			<div class="mb-4">
 				<div class="h6">Urutkan Berdasar</div>
 				<div

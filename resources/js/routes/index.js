@@ -34,6 +34,14 @@ const router = new VueRouter({
             meta: {
                 title: 'Tentang - UlasBuku'
             }
+        },
+        {
+            path: '/category',
+            name: 'CategoryPage',
+            component: () => import('@pages/CategoryPage.vue'),
+            meta: {
+                title: 'Kategori - UlasBuku'
+            }
         }
     ],
     scrollBehavior (to, from) {

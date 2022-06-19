@@ -25,7 +25,7 @@
 			<a
 				class="btn btn-outline-primary"
 				href="/login"
-			>Login</a>
+			>Masuk</a>
 		</div>
 	</header>
 </template>

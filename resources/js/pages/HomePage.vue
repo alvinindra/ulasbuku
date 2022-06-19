@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 import HomeBanner from "@components/home/HomeBanner.vue";
 import HomeBookNew from "@components/home/HomeBookNew.vue";
 import HomeBookPopular from "@components/home/HomeBookPopular.vue";
@@ -16,6 +18,12 @@ export default {
 		HomeBanner,
 		HomeBookNew,
 		HomeBookPopular,
+	},
+	methods: {
+		...mapActions("home", ["getListBooks"]),
+	},
+	mounted() {
+		this.getListBooks();
 	},
 };
 </script>
