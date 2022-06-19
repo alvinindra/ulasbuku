@@ -19,17 +19,30 @@ use App\Http\Controllers\ReviewController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
+
+// Frontend
 Route::get('/', function () {
     return view('index');
 });
 
-// Route::get('/{vue_capture?}', function () {
-//     return view('index');
-// })->where('vue_capture', '[\/\w\.-]*');
+Route::get('/book/{id}', function () {
+    return view('frontend.book.detail');
+});
+Route::get('/search', function () {
+    return view('frontend.book.list');
+});
+Route::get('/about', function () {
+    return view('frontend.general.about');
+});
+Route::get('/category', function () {
+    return view('frontend.category.list');
+});
+Route::get('/author', function () {
+    return view('frontend.author.list');
+});
 
-// Route::get('login', [AuthController::class, 'indexLogin'])->name('login');
-// Route::get('register', [AuthController::class, 'indexRegister'])->name('register');
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 // Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
@@ -58,11 +71,10 @@ Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::c
 
 //Feature
 //Route::get('/category/index', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
-Route::group(['prefix'=>'admin', 'middleware'=>['auth', 'role:admin|member']], function () {
-Route::resource('category', CategoryController::class);
-Route::resource('author', AuthorController::class);
-Route::resource('publisher', PublisherController::class);
-Route::resource('book', BookController::class);
-Route::resource('review', ReviewController::class);
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin|member']], function () {
+    Route::resource('category', CategoryController::class);
+    Route::resource('author', AuthorController::class);
+    Route::resource('publisher', PublisherController::class);
+    Route::resource('book', BookController::class);
+    Route::resource('review', ReviewController::class);
 });
-

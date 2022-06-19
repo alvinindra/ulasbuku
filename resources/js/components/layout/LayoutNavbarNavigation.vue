@@ -21,20 +21,15 @@ export default {
 					url: "/",
 				},
 				{
-					name: "Bestseller",
-					pageName: "BestsellerPage",
-					url: "/bestseller",
-				},
-				{
 					name: "Category",
 					pageName: "CategoryPage",
 					url: "/category",
 				},
-				{
-					name: "Author",
-					pageName: "AuthorPage",
-					url: "/author",
-				},
+				// {
+				// 	name: "Author",
+				// 	pageName: "AuthorPage",
+				// 	url: "/author",
+				// },
 				{
 					name: "About",
 					pageName: "AboutPage",

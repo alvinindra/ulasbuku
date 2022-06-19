@@ -18,6 +18,30 @@ const router = new VueRouter({
             meta: {
                 title: 'Rindu Tere Liye - UlasBuku'
             }
+        },
+        {
+            path: '/search',
+            name: 'ListBookPage',
+            component: () => import('@pages/ListBookPage.vue'),
+            meta: {
+                title: 'Hasil Pencarian - UlasBuku'
+            }
+        },
+        {
+            path: '/about',
+            name: 'AboutPage',
+            component: () => import('@pages/AboutPage.vue'),
+            meta: {
+                title: 'Tentang - UlasBuku'
+            }
+        },
+        {
+            path: '/category',
+            name: 'CategoryPage',
+            component: () => import('@pages/CategoryPage.vue'),
+            meta: {
+                title: 'Kategori - UlasBuku'
+            }
         }
     ],
     scrollBehavior (to, from) {
