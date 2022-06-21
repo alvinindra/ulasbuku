@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Author;
 use App\Models\Publisher;
 use File;
+use Illuminate\Support\Str;
 
 class BookController extends Controller
 {
@@ -49,6 +50,7 @@ class BookController extends Controller
         $this->validate($request, [
             'title'=>'required',
             'description'=>'required',
+            'slug'=>'required',
             'id_category'=>'required',
             'id_author'=>'required',
             'id_publisher'=>'required',
@@ -57,6 +59,7 @@ class BookController extends Controller
         $book = new Book;
         $book->title = $request->title;
         $book->description = $request->description;
+        $book->slug = Str::slug($request->slug, '_');
         if ($request->hasFile('cover')){
             $file = $request->file('cover');
             $destinationPatch = public_path().'/assets/img/cover/';

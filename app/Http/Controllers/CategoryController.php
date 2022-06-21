@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -50,8 +51,12 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name_category' => 'required',
+            'slug'          => 'required',
         ]);
-        Category::create($request->all());
+        $category = new Category;
+        $category->name_category = $request->name_category;
+        $category->slug = Str::slug($request->slug, '_');
+        $category->save();
 
         return redirect()->route('category.index')->with('succes','Data Berhasil di Input');
     }
@@ -90,6 +95,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name_category' => 'required',
+            'slug'          => 'required',
         ]);
 
         $category->update($request->all());
