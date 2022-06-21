@@ -3,26 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
-class BooksController extends Controller
+class BooksController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $posts = Book::latest()->get();
+    public function index(Request $request)
+    {   
+        $search = $request->query('search');
+        $posts = Book::where('title','like',"%".$search."%")->paginate(12)->withQueryString();
 
         //make response JSON
-        return response()->json([
-            'success' => true,
-            'message' => 'List Data Post',
-            'data'    => $posts
-        ], 200);
+        return $this->sendResponse($posts, 'Data berhasil ditampilkan');
     }
 
     /**
@@ -54,9 +52,18 @@ class BooksController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $book = Book::find($id);
 
+        if (is_null($book)) {
+            return $this->sendError('Buku tidak ditemukan.');
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "Data berhasil ditemukan",
+            "data" => $book
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

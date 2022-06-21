@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/books', 'App\Http\Controllers\Api\BooksController@index');
+Route::get('/books/{id}', 'App\Http\Controllers\Api\BooksController@show');
