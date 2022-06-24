@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Resources\BookResource as BookResource;
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Review;
+use Illuminate\Support\Carbon;
 
 class BooksController extends BaseController
 {
@@ -16,11 +19,39 @@ class BooksController extends BaseController
      */
     public function index(Request $request)
     {   
-        $search = $request->query('search');
-        $posts = Book::where('title','like',"%".$search."%")->paginate(12)->withQueryString();
+        $booksQuery = (new Book())->query();
+        $booksQuery->withAvg('reviews as total_rating', 'rating');
+        $booksQuery->withCount('reviews as total_reviews');
+        $booksQuery->with('author:id,name_author');
+        $booksQuery->when($request->search, function($q) use ($request) {
+            $q->where('title','like',"%{$request->search}%");
+        })->when($request->filter === 'latest', function($q) {
+            $q->orderBy('created_at', 'desc');
+        })->when($request->filter === 'oldest', function($q) {
+            $q->orderBy('created_at', 'asc');
+        });
+
+        $books = $booksQuery->paginate(12)->withQueryString();
 
         //make response JSON
-        return $this->sendResponse($posts, 'Data berhasil ditampilkan');
+        return $this->sendResponse($books, 'Data berhasil ditampilkan');
+    }
+
+    /**
+     * Display a listing of the resource review.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listReviews($id)
+    {   
+        $book = Book::find($id);
+
+        $reviews = $book->reviews()
+        ->with('user:id,name')
+        ->paginate(12)
+        ->withQueryString();
+        //make response JSON
+        return $this->sendResponse($reviews, 'Data berhasil ditampilkan');
     }
 
     /**
@@ -47,12 +78,16 @@ class BooksController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $book = Book::find($id);
+        $book = Book::where('slug', $slug)
+        ->withAvg('reviews as total_rating', 'rating')
+        ->withCount('reviews as total_reviews')
+        ->with('author:id,name_author')
+        ->first();
 
         if (is_null($book)) {
             return $this->sendError('Buku tidak ditemukan.');

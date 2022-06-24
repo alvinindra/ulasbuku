@@ -13,10 +13,19 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/books', 'App\Http\Controllers\Api\BooksController@index');
-Route::get('/books/{id}', 'App\Http\Controllers\Api\BooksController@show');
+Route::get('/books/{slug}', 'App\Http\Controllers\Api\BooksController@show');
+Route::get('/books/{id}/reviews', 'App\Http\Controllers\Api\BooksController@listReviews');
+
+Route::post('/register', 'App\Http\Controllers\Api\AuthController@register');
+Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
+//Protecting Routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/review', 'App\Http\Controllers\Api\ReviewController@store');
+
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+    
+    Route::post('/logout', 'App\Http\Controllers\Api\AuthController@logout');
+});
