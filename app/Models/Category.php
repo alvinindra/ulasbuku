@@ -12,5 +12,5 @@ class Category extends Model
     protected $table = 'categories';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['id','name_category'];
+    protected $fillable = ['id','name_category', 'slug'];
 }

@@ -12,7 +12,7 @@ class Review extends Model
     protected $table = 'reviews';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['id','review_content','rating','id_book','id_user'];
+    protected $fillable = ['id','review_content','rating','id_book','id_user', 'created_at', 'updated_at'];
 
     public function book(){
         return $this->belongsTo('App\Models\Book','id_book');
