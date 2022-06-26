@@ -51,15 +51,15 @@ class ReviewController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $review = Review::firstOrCreate([
+        $review = Review::firstOrNew([
             'id_book' => $request->id_book,
             'id_user' => auth()->user()->id,
-            'review_content' => $request->review_content,
-            'rating' => $request->rating,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
         ]);
 
+        $review->review_content = $request->review_content;
+        $review->rating = $request->rating;
+        $review->created_at = Carbon::now();
+        $review->updated_at = Carbon::now();
         $review->save();
 
         return response()->json([
@@ -95,9 +95,29 @@ class ReviewController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'id_book' => 'required',
+            'review_content' => 'required',
+            'rating' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $review = Review::find($id);
+        $review->id_book = $request->id_book;
+        $review->id_user = auth()->user()->id;
+        $review->review_content = $request->review_content;
+        $review->rating = $request->rating;
+        $review->updated_at = Carbon::now();
+        $review->save();
+
+        return $this->sendResponse($review, 'Review berhasil diubah');
     }
 
     /**

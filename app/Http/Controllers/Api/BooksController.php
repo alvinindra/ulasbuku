@@ -23,12 +23,19 @@ class BooksController extends BaseController
         $booksQuery->withAvg('reviews as total_rating', 'rating');
         $booksQuery->withCount('reviews as total_reviews');
         $booksQuery->with('author:id,name_author');
+        $booksQuery->with('category:id,name_category');
         $booksQuery->when($request->search, function($q) use ($request) {
             $q->where('title','like',"%{$request->search}%");
         })->when($request->filter === 'latest', function($q) {
             $q->orderBy('created_at', 'desc');
         })->when($request->filter === 'oldest', function($q) {
             $q->orderBy('created_at', 'asc');
+        })->when($request->filter === 'most_popular', function($q) {
+            $q->orderBy('total_reviews', 'desc');
+        })->when($request->category, function($q) use ($request) {
+            $q->whereHas('category', function($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
         });
 
         $books = $booksQuery->paginate(12)->withQueryString();
@@ -87,7 +94,12 @@ class BooksController extends BaseController
         ->withAvg('reviews as total_rating', 'rating')
         ->withCount('reviews as total_reviews')
         ->with('author:id,name_author')
-        ->first();
+        ->when(auth('sanctum')->check(), function($q) {
+            $q->withExists('reviews as reviewed', function($q) {
+                $q->where('id_user', auth('sanctum')->user()->id);
+            });
+        })->first();
+
 
         if (is_null($book)) {
             return $this->sendError('Buku tidak ditemukan.');
