@@ -1,7 +1,12 @@
 <template>
 	<div class="col-md-3 col-12">
-		<div class="border-bottom mb-3">
-			<h4 class="font-title">Filter</h4>
+		<div class="d-flex border-bottom pb-2 mb-3">
+			<h4 class="font-title my-auto">Filter</h4>
+			<h6
+				v-if="selectedCategory !== '' || selectedSort !== ''"
+				class="btn btn-outline-primary py-1 my-auto ml-auto mb-2"
+				@click="handleResetFilter"
+			>Reset</h6>
 		</div>
 		<div class="d-block">
 			<div class="mb-4">
@@ -18,6 +23,7 @@
 						:id="`sort${sort.id}`"
 						v-model="selectedSort"
 						:value="sort.value"
+						@change="handleFilter"
 						checked
 					>
 					<label
@@ -38,17 +44,18 @@
 					<input
 						class="form-check-input"
 						type="radio"
-						name="gridRadios"
+						name="gridRadiosCategory"
 						:id="`category${category.id}`"
 						v-model="selectedCategory"
-						:value="category.value"
+						:value="category.slug"
+						@change="handleFilter"
 						checked
 					>
 					<label
 						class="form-check-label"
 						:for="`category${category.id}`"
 					>
-						{{ category.name }}
+						{{ category.name_category }}
 					</label>
 				</div>
 			</div>
@@ -57,46 +64,81 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
 	data() {
 		return {
-			selectedSort: "",
-			selectedCategory: "",
+			search: this.$route.query.q || "",
+			selectedSort: this.$route.query.sort || "",
+			selectedCategory: this.$route.query.category || "",
 			listFilterSorting: [
 				{
 					id: 1,
 					name: "Terbaru",
-					value: "terbaru",
+					value: "latest",
 				},
 				{
 					id: 2,
 					name: "Terlama",
-					value: "terlama",
+					value: "oldest",
 				},
 				{
 					id: 3,
 					name: "Terpopuler",
-					value: "terpopuler",
+					value: "most_popular",
 				},
 			],
-			listFilterCategory: [
-				{
-					id: 1,
-					name: "Novel",
-					value: "novel",
-				},
-				{
-					id: 2,
-					name: "Romantis",
-					value: "romantis",
-				},
-				{
-					id: 3,
-					name: "Pengembangan Diri",
-					value: "pengembangan-diri",
-				},
-			],
+			listFilterCategory: [],
 		};
+	},
+	methods: {
+		...mapActions("category", ["getCategory"]),
+		async getListCategory() {
+			try {
+				const res = await this.getCategory();
+				this.listFilterCategory = res.data.data.data;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		handleResetFilter() {
+			this.$router.push({
+				name: "ListBookPage",
+				query: {
+					q: this.search,
+					sort: "",
+					category: "",
+				},
+			});
+		},
+		handleFilter() {
+			this.$router.push({
+				name: "ListBookPage",
+				query: {
+					q: this.search,
+					sort: this.selectedSort,
+					category: this.selectedCategory,
+				},
+			});
+		},
+	},
+	mounted() {
+		this.getListCategory();
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.btn-reset {
+	color: #68a7ad;
+	border: 1px solid #68a7ad;
+	padding: 6px 12px;
+	border-radius: 6px;
+	cursor: pointer;
+
+	&:hover {
+		color: #5c8e9e;
+	}
+}
+</style>

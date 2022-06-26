@@ -11,6 +11,9 @@ class Review extends Model
 
     protected $table = 'reviews';
     protected $primaryKey = 'id';
+    protected $casts = [
+        'rating' => 'float',
+    ];
 
     protected $fillable = ['id','review_content','rating','id_book','id_user', 'created_at', 'updated_at'];
 

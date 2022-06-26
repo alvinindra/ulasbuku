@@ -60,14 +60,6 @@
 	</section>
 </template>
 
-<script>
-export default {
-	mounted() {
-		console.log("Component mounted.");
-	},
-};
-</script>
-
 <style lang="scss" scoped>
 .carousel-item {
 	border-radius: 36px;

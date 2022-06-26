@@ -34,7 +34,7 @@
 export default {
 	data() {
 		return {
-			search: "",
+			search: this.$route.query.q || "",
 		};
 	},
 	methods: {
@@ -57,6 +57,8 @@ export default {
 				name: "ListBookPage",
 				query: {
 					q: this.search,
+					filter: this.$route.query.sort || "",
+					category: this.$route.query.category || "",
 				},
 			});
 		},

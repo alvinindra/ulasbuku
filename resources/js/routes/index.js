@@ -12,7 +12,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/book/:id',
+            path: '/book/:slug',
             name: 'DetailBookPage',
             component: () => import('@pages/DetailBookPage.vue'),
             meta: {

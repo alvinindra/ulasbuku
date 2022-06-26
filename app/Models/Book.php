@@ -11,6 +11,9 @@ class Book extends Model
 
     protected $table = 'books';
     protected $primaryKey = 'id';
+    protected $casts = [
+        'total_rating' => 'float',
+    ];
 
     protected $fillable = ['id','title','description','cover','id_category','id_author','id_publisher'];
 

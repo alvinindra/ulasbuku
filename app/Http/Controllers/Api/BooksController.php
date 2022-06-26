@@ -19,6 +19,7 @@ class BooksController extends BaseController
      */
     public function index(Request $request)
     {   
+        $perPage = $request->perPage ? intval($request->perPage) : 12;
         $booksQuery = (new Book())->query();
         $booksQuery->withAvg('reviews as total_rating', 'rating');
         $booksQuery->withCount('reviews as total_reviews');
@@ -38,7 +39,7 @@ class BooksController extends BaseController
             });
         });
 
-        $books = $booksQuery->paginate(12)->withQueryString();
+        $books = $booksQuery->paginate($perPage)->withQueryString();
 
         //make response JSON
         return $this->sendResponse($books, 'Data berhasil ditampilkan');

@@ -5,10 +5,10 @@ const state = () => ({})
 const mutations = {}
 
 const actions = {
-    getListBooks (_, payload) {
+    getCategory (_, payload) {
         return new Promise((resolve, reject) => {
             apiClient
-                .get('/books', payload)
+                .get('/category', payload)
                 .then(response => {
                     resolve(response)
                 })
