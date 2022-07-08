@@ -62,11 +62,11 @@
 
 <style lang="scss" scoped>
 .carousel-item {
-	border-radius: 36px;
+	border-radius: 24px;
 	&__banner {
 		height: 400px;
 		object-fit: cover;
-		border-radius: 36px;
+		border-radius: 24px;
 	}
 }
 </style>

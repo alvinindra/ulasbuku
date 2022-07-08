@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const router = new VueRouter({
@@ -42,6 +43,15 @@ const router = new VueRouter({
             meta: {
                 title: 'Kategori - UlasBuku'
             }
+        },
+        {
+            path: '*',
+            name: 'NotFoundPage',
+            component: () => import('@pages/404.vue'),
+            meta: {
+                title: 'Halaman Tidak Ditemukan - UlasBuku',
+                layout: 'ErrorLayout'
+            }
         }
     ],
     scrollBehavior (to, from) {
@@ -51,6 +61,12 @@ const router = new VueRouter({
             return { x: 0, y: 0 }
         }
     }
+})
+
+router.afterEach((to, from) => {
+    Vue.nextTick(() => {
+        document.title = to.meta.title
+    })
 })
 
 export default router

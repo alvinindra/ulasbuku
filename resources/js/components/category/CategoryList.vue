@@ -16,7 +16,7 @@
 				</div>
 			</div>
 		</div>
-		<template v-if="category.length > 0">
+		<template v-if="filteredCategory.length > 0">
 			<div
 				v-for="cat in filteredCategory"
 				:key="cat.id"
@@ -31,7 +31,13 @@
 			>
 			</scroll-loader>
 		</template>
-
+		<template v-else-if="filteredCategory.length === 0">
+			<div class="col-12 my-3">
+				<h5 class="text-center">
+					Tidak ada kategori yang ditemukan
+				</h5>
+			</div>
+		</template>
 	</div>
 </template>
 
