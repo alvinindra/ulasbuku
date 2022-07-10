@@ -50,16 +50,14 @@ class BooksController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function listReviews($id)
+    public function listReviews($slug)
     {   
-        $book = Book::find($id);
-
-        $reviews = $book->reviews()
+        $book = Review::where('slug', $slug)
         ->with('user:id,name')
         ->paginate(12)
         ->withQueryString();
         //make response JSON
-        return $this->sendResponse($reviews, 'Data berhasil ditampilkan');
+        return $this->sendResponse($book, 'Data berhasil ditampilkan');
     }
 
     /**

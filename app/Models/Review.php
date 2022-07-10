@@ -12,7 +12,7 @@ class Review extends Model
     protected $table = 'reviews';
     protected $primaryKey = 'id';
     protected $casts = [
-        'rating' => 'float',
+        'rating' => 'float'
     ];
 
     protected $fillable = ['id','review_content','rating','id_book','id_user', 'created_at', 'updated_at'];
@@ -23,5 +23,16 @@ class Review extends Model
 
     public function user(){
         return $this->belongsTo('App\Models\User','id_user');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['created_at'])
+        ->diffForHumans();
     }
 }

@@ -1,29 +1,29 @@
 <template>
-	<div class="container my-5">
+	<div
+		v-if="Object.keys(book).length"
+		class="container my-5"
+	>
 		<div class="row">
-			<div class="col-lg-4 col-12 text-center">
+			<div class="col-lg-4 col-12 text-center mb-5 mb-lg-0">
 				<img
 					class="img-fluid shadow p-4"
 					style="height: 300px"
-					src="/assets/img/book/rindu-tere-liye.jpg"
-					alt=""
+					:src="`/assets/img/cover/${book.cover}`"
+					:alt="book.title"
 				>
 			</div>
 			<div class="col-lg-8 col-12">
 				<div class="row">
 					<div class="col-12">
-						<h2 class="font-title">Rindu</h2>
+						<h2 class="font-title">{{ book.title }}</h2>
 					</div>
 					<div class="col-12 mb-1">
-						<h5 class="font-primary color-grey">Tere Liye</h5>
+						<h5 class="font-primary color-grey">{{ book.author.name_author }}</h5>
 					</div>
 					<div class="col-12">
 						<h6 class="font-primary font-weight-bold">Deskripsi Buku:</h6>
 						<p class="font-primary text-justify">
-							"Apalah arti memiliki, ketika did kami sendiri bukanlah milik kami?
-							Apalah arti kehilangan, ketika kami sebenarnya menemukan banyak saat kehilangan dan sebaliknya, kehilangan banyak pula saat menemukan?
-							Apalah arti cinta, ketika menangis terluka atas perasaan yg seharusnya indah? Bagaimana mungkin, kami terduduk patah hati atas sesuatu yang seharusnya suci dan tidak menuntut apa pun?
-							Wahai, bukankah banyak kerinduan saat kami hendak melupakan? Dan tidak terbilang keinginan melupakan saat kami dalam rindu? Hingga rindu dan melupakan jaraknya setipis benang saja"
+							{{ book.description }}
 						</p>
 					</div>
 					<div class="col-12">
@@ -103,3 +103,31 @@
 		</div>
 	</div>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+
+export default {
+	data() {
+		return {
+			book: {},
+		};
+	},
+	metaInfo() {
+		return {
+			title: `Detail Buku - UlasBuku`,
+			titleTemplate: `${this.book.title} - UlasBuku`,
+		};
+	},
+	methods: {
+		...mapActions("book", ["getBook", "getListDetailReviews"]),
+		async initComponent() {
+			const res = await this.getBook(this.$route.params.slug);
+			this.book = res.data.data;
+		},
+	},
+	mounted() {
+		this.initComponent();
+	},
+};
+</script>

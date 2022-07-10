@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "element-ui": "^2.15.9",
+        "vue-meta": "^2.4.0",
         "vue-router": "^3.5.4",
         "vue-scroll-loader": "^2.2.0",
         "vue-star-rating": "^1.7.0",

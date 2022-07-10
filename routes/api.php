@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/books', 'App\Http\Controllers\Api\BooksController@index');
 Route::get('/books/{slug}', 'App\Http\Controllers\Api\BooksController@show');
-Route::get('/books/{id}/reviews', 'App\Http\Controllers\Api\BooksController@listReviews');
+Route::get('/books/{slug}/reviews', 'App\Http\Controllers\Api\BooksController@listReviews');
 
 Route::get('/category', 'App\Http\Controllers\Api\CategoryController@index');
 

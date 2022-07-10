@@ -1,5 +1,8 @@
 <template>
-	<div class="container my-4">
+	<div
+		v-if="reviews.length"
+		class="container my-4"
+	>
 		<div class="row mb-3">
 			<div class="col-sm-12">
 				<h4 class="font-title">Ulasan</h4>
@@ -7,8 +10,8 @@
 		</div>
 		<div class="row">
 			<div
-				v-for="n in 3"
-				:key="n"
+				v-for="review in reviews"
+				:key="review.id"
 				class="col-lg-12 mb-4"
 			>
 				<div class="row">
@@ -24,11 +27,11 @@
 					<div class="col-10 col-lg-11">
 						<div class="card card-default">
 							<div class="card-header d-flex">
-								<strong>Anninda</strong>
+								<strong>{{ review.user.name }}</strong>
 								<div class="mx-3">Memberikan rating</div>
 								<star-rating
 									class="mb-auto"
-									:rating="4.6"
+									:rating="review.rating"
 									:star-size="16"
 									:read-only="true"
 									:padding="4"
@@ -38,25 +41,59 @@
 								></star-rating>
 							</div>
 							<div class="card-body">
-								4.9 Star. Anddddddddd. This is my last book for tere-liye collection which i've bought them about a year ago. Will buy more, insyaAllah. <br><br>
-
-								This book is good as well as other book kecuali yang satu tu, you know which and nampak sangat lah kenapa dapat award Buku islamis terbaik 2015 <br><br>
-
-								Hats off Tere liye!
+								{{ review.review_content }}
 							</div>
 							<div class="card-footer">
-								<span class="text-muted">Memberi ulasan 5 hari yang lalu</span>
+								<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<scroll-loader
+				class="col-12 mx-auto"
+				:loader-method="initComponent"
+				:loader-disable="disable"
+			>
+			</scroll-loader>
 		</div>
 
 	</div>
 </template>
 
+<script>
+import { mapActions } from "vuex";
+
+export default {
+	data() {
+		return {
+			reviews: {},
+			disable: false,
+			page: 1,
+		};
+	},
+	methods: {
+		...mapActions("book", ["getListDetailReviews"]),
+		async initComponent() {
+			const payload = {
+				slug: this.$route.params.slug,
+				params: {
+					page: this.page++,
+				},
+			};
+			const res = await this.getListDetailReviews(payload);
+			this.reviews = res.data.data.data;
+			this.disable = this.reviews.length === res.data.data.total;
+		},
+	},
+	mounted() {
+		this.initComponent();
+	},
+};
+</script>
+
 <style lang="scss" scoped>
 .vue-star-rating-star {
 	margin-bottom: 2px;
 }
+</style>

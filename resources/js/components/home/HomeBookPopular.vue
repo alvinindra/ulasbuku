@@ -7,7 +7,7 @@
 			<div
 				v-for="book in books"
 				:key="book.id"
-				class="col-lg-2 col-6 mb-4"
+				class="col-xl-2 col-lg-3 col-6 mb-4"
 			>
 				<CardBook :book="book" />
 			</div>
