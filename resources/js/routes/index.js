@@ -45,12 +45,30 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/login',
+            name: 'LoginPage',
+            component: () => import('@pages/auth/LoginPage.vue'),
+            meta: {
+                title: 'Masuk - UlasBuku',
+                layout: 'BasicLayout'
+            }
+        },
+        {
+            path: '/register',
+            name: 'RegisterPage',
+            component: () => import('@pages/auth/RegisterPage.vue'),
+            meta: {
+                title: 'Daftar Akun - UlasBuku',
+                layout: 'BasicLayout'
+            }
+        },
+        {
             path: '*',
             name: 'NotFoundPage',
             component: () => import('@pages/404.vue'),
             meta: {
                 title: 'Halaman Tidak Ditemukan - UlasBuku',
-                layout: 'ErrorLayout'
+                layout: 'BasicLayout'
             }
         }
     ],

@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "element-ui": "^2.15.9",
         "vue-router": "^3.5.4",
         "vue-scroll-loader": "^2.2.0",
         "vue-star-rating": "^1.7.0",
