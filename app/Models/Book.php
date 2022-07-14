@@ -29,6 +29,10 @@ class Book extends Model
         return $this->belongsTo('App\Models\Publisher','id_publisher');
     }
 
+    public function is_reviewed() {
+        return $this->hasOne('App\Models\Review', 'id_book')->where('id_user', auth('sanctum')->user()->id);
+    }
+
     public function reviews(){
         return $this->hasMany('App\Models\Review','id_book');
     }

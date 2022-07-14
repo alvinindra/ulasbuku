@@ -1,5 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@store/store.js'
+
+function requireAuth (to, from, next) {
+    if (!store.state.auth.loggedIn) {
+        next('/login')
+        return false
+    } else {
+        next()
+    }
+}
 
 const router = new VueRouter({
     mode: 'history',

@@ -72,15 +72,16 @@ class ReviewController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $review = Review::find($id);
+        $auth = auth('sanctum')->user();
+        $review = Review::where('slug', $slug)->where('id_user', $auth->id)->first();
 
         if (is_null($review)) {
-          return $this->sendError('Ulasan tidak ditemukan.');
+          return $this->sendResponse([], 'Data masih kosong');
         }
 
         return response()->json([
@@ -95,12 +96,12 @@ class ReviewController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $slug)
     {
         $input = $request->all();
+        $user = auth('sanctum')->user();
 
         $validator = Validator::make($input, [
-            'id_book' => 'required',
             'review_content' => 'required',
             'rating' => 'required',
         ]);
@@ -109,15 +110,16 @@ class ReviewController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $review = Review::find($id);
-        $review->id_book = $request->id_book;
-        $review->id_user = auth()->user()->id;
-        $review->review_content = $request->review_content;
-        $review->rating = $request->rating;
-        $review->updated_at = Carbon::now();
-        $review->save();
+        $review = Review::where('slug', $slug)->where('id_user', $user->id);
+        $review->update([
+            'review_content' => $request->review_content,
+            'rating' => $request->rating,
+            'updated_at' => Carbon::now(),
+        ]);
 
-        return $this->sendResponse($review, 'Review berhasil diubah');
+        $getReview = Review::where('slug', $slug)->where('id_user', $user->id)->first();
+
+        return $this->sendResponse($getReview, 'Review berhasil diubah');
     }
 
     /**

@@ -32,7 +32,7 @@
 							data-toggle="modal"
 							data-target="#exampleModalCenter"
 							class="btn btn-primary"
-						>Ulas Buku</button>
+						>{{ book.is_reviewed !== null ? 'Perbarui Ulas Buku' : 'Ulas Buku'}}</button>
 					</div>
 				</div>
 			</div>
@@ -67,19 +67,21 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form @submit.prevent="postReview">
 							<div class="form-group mx-auto justify-content-center text-center">
 								<star-rating
+									v-model="formReview.rating"
 									:star-size="24"
 									:padding="4"
 									active-color="#B4D51E"
-									:increment="0.01"
+									:increment="1"
 									:show-rating="false"
 								></star-rating>
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput2">Deskripsi Ulasan</label>
 								<textarea
+									v-model="formReview.review_content"
 									class="form-control"
 									id="exampleFormControlTextarea1"
 									rows="3"
@@ -96,6 +98,7 @@
 						<button
 							type="button"
 							class="btn btn-primary"
+							@click="postReview"
 						>Simpan</button>
 					</div>
 				</div>
@@ -105,12 +108,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
 	data() {
 		return {
 			book: {},
+			formReview: {
+				rating: 0,
+				review_content: "",
+			},
 		};
 	},
 	metaInfo() {
@@ -119,11 +126,72 @@ export default {
 			titleTemplate: `${this.book.title} - UlasBuku`,
 		};
 	},
+	computed: {
+		...mapState("auth", ["user", "loggedIn"]),
+	},
 	methods: {
-		...mapActions("book", ["getBook", "getListDetailReviews"]),
+		...mapActions("book", [
+			"getBook",
+			"getListDetailReviews",
+			"getDetailReview",
+			"postSaveReview",
+			"postEditReview",
+		]),
 		async initComponent() {
 			const res = await this.getBook(this.$route.params.slug);
 			this.book = res.data.data;
+			const resReview = await this.getDetailReview(this.$route.params.slug);
+			this.formReview.rating = resReview.data.data.rating;
+			this.formReview.review_content = resReview.data.data.review_content;
+		},
+		async postReview() {
+			if (this.loggedIn) {
+				if (this.book.is_reviewed !== null) {
+					try {
+						const payload = {
+							slug: this.$route.params.slug,
+							data: {
+								rating: this.formReview.rating,
+								review_content: this.formReview.review_content,
+							},
+						};
+
+						await this.postEditReview(payload);
+						this.$message({
+							message: "Ulasan berhasil diubah",
+							type: "success",
+						});
+					} catch (error) {
+						console.log(error);
+						this.$message({
+							message: "Error sayang",
+							type: "error",
+						});
+					}
+				} else {
+					try {
+						const payload = {
+							id: this.book.id,
+							rating: this.formReview.rating,
+							review_content: this.formReview.review_content,
+						};
+
+						await this.postSaveReview(payload);
+						this.$message({
+							message: "Ulasan berhasil disimpan",
+							type: "success",
+						});
+					} catch (error) {
+						console.log(error);
+						this.$message({
+							message: "Error sayang",
+							type: "error",
+						});
+					}
+				}
+			} else {
+				this.$router.push("/login");
+			}
 		},
 	},
 	mounted() {

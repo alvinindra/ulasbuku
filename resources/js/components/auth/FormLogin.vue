@@ -27,8 +27,8 @@
 								</div>
 							</div>
 							<form
-								action="#"
 								class="signin-form"
+								@submit.prevent="login"
 							>
 								<div class="form-group mt-3">
 									<label
@@ -37,6 +37,7 @@
 									>Email</label>
 									<input
 										type="text"
+										v-model="formLogin.email"
 										class="form-control"
 										required
 									>
@@ -48,6 +49,7 @@
 									>Password</label>
 									<input
 										id="password-field"
+										v-model="formLogin.password"
 										type="password"
 										class="form-control"
 										required
@@ -77,6 +79,48 @@
 		</div>
 	</section>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+export default {
+	data() {
+		return {
+			formLogin: {
+				email: "",
+				password: "",
+			},
+		};
+	},
+	methods: {
+		...mapActions("auth", ["postLogin", "getProfile"]),
+		async login() {
+			try {
+				const payload = {
+					email: this.formLogin.email,
+					password: this.formLogin.password,
+				};
+				const res = await this.postLogin(payload);
+				this.getProfile();
+				console.log(res.data);
+				localStorage.setItem("token", res.data.access_token);
+				this.$message({
+					showClose: true,
+					message: "Anda telah berhasil masuk",
+					type: "success",
+				});
+				this.$router.push("/");
+			} catch (error) {
+				console.error(error);
+				this.$message({
+					showClose: true,
+					message: "Terjadi kesalahan",
+					type: "error",
+				});
+			}
+		},
+	},
+};
+</script>
 
 <style lang="scss" scoped>
 .cover-login {

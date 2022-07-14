@@ -89,16 +89,14 @@ class BooksController extends BaseController
      */
     public function show($slug)
     {
+        $user = auth('sanctum')->user();
         $book = Book::where('slug', $slug)
         ->withAvg('reviews as total_rating', 'rating')
         ->withCount('reviews as total_reviews')
         ->with('author:id,name_author')
-        ->when(auth('sanctum')->check(), function($q) {
-            $q->withExists('reviews as reviewed', function($q) {
-                $q->where('id_user', auth('sanctum')->user()->id);
-            });
+        ->with('is_reviewed', function($q) use ($slug) {
+            $q->where('slug', $slug);
         })->first();
-
 
         if (is_null($book)) {
             return $this->sendError('Buku tidak ditemukan.');
