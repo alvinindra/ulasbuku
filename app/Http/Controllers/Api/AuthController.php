@@ -20,7 +20,7 @@ class AuthController extends BaseController
 
     public function listReviews(Request $request) {
         $user = Auth::user();
-        $reviews = $user->reviews()->paginate()->withQueryString();
+        $reviews = $user->reviews()->with('book')->paginate()->withQueryString();
         return $this->sendResponse($reviews, 'Data review berhasil didapatkan.');
     }
 

@@ -58,22 +58,22 @@
 										<li class="nav-item">
 											<a
 												class="nav-link active"
-												id="basicInfo-tab"
+												id="profil-tab"
 												data-toggle="tab"
-												href="#basicInfo"
+												href="#profil"
 												role="tab"
-												aria-controls="basicInfo"
+												aria-controls="profil"
 												aria-selected="true"
 											>Data Profil</a>
 										</li>
 										<li class="nav-item">
 											<a
 												class="nav-link"
-												id="connectedServices-tab"
+												id="reviews-tab"
 												data-toggle="tab"
-												href="#connectedServices"
+												href="#reviews"
 												role="tab"
-												aria-controls="connectedServices"
+												aria-controls="reviews"
 												aria-selected="false"
 											>Riwayat Ulasan</a>
 										</li>
@@ -84,9 +84,9 @@
 									>
 										<div
 											class="tab-pane fade show active"
-											id="basicInfo"
+											id="profil"
 											role="tabpanel"
-											aria-labelledby="basicInfo-tab"
+											aria-labelledby="profil-tab"
 										>
 
 											<div class="row">
@@ -120,18 +120,53 @@
 										</div>
 										<div
 											class="tab-pane fade"
-											id="connectedServices"
+											id="reviews"
 											role="tabpanel"
-											aria-labelledby="ConnectedServices-tab"
+											aria-labelledby="reviews-tab"
+											v-if="listReviews.length > 0"
 										>
-											Ini daftar ulasan review dari user
+											<div
+												v-for="review in listReviews"
+												:key="review.id"
+												class="col-lg-12 mb-4"
+											>
+												<div class="row">
+													<div class="col-12 col-lg-12">
+														<div class="card">
+															<div class="card-header d-flex">
+																<div class="mr-3">Memberikan rating</div>
+																<star-rating
+																	class="mb-auto"
+																	:rating="review.rating"
+																	:star-size="16"
+																	:read-only="true"
+																	:padding="4"
+																	active-color="#B4D51E"
+																	:increment="0.01"
+																	:show-rating="false"
+																></star-rating>
+															</div>
+															<div class="card-body">
+																{{ review.review_content }} <span class="color-grey font-italic">- {{ review.book.title }}</span>
+															</div>
+															<div class="card-footer">
+																<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<scroll-loader
+												class="col-12 mx-auto"
+												:loader-method="initComponent"
+												:loader-disable="loaderDisable"
+											>
+											</scroll-loader>
 										</div>
 									</div>
 								</div>
 							</div>
-
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -143,6 +178,13 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
+	data() {
+		return {
+			listReviews: [],
+			loaderDisable: false,
+			page: 1,
+		};
+	},
 	computed: {
 		...mapState("auth", ["user"]),
 		formatDateInd() {
@@ -168,9 +210,24 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions("auth", ["getProfile"]),
+		...mapActions("auth", ["getProfile", "getListReviews"]),
+		async initComponent() {
+			try {
+				const payload = {
+					params: {
+						page: this.page++,
+					},
+				};
+				const res = await this.getListReviews(payload);
+				this.listReviews = res.data.data.data;
+				this.loaderDisable = this.listReviews.length === res.data.data.total;
+			} catch (error) {
+				console.error(error);
+			}
+		},
 	},
 	mounted() {
+		this.initComponent();
 		this.getProfile();
 	},
 };
