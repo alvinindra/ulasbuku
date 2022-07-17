@@ -28,9 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/review', 'App\Http\Controllers\Api\ReviewController@store');
     Route::post('/review/{slug}', 'App\Http\Controllers\Api\ReviewController@edit');
 
-    Route::get('/profile', function(Request $request) {
-        return auth()->user();
-    });
+    Route::get('/profile', 'App\Http\Controllers\Api\AuthController@profile');
+    Route::get('/user/reviews', 'App\Http\Controllers\Api\AuthController@listReviews');
     
     Route::post('/logout', 'App\Http\Controllers\Api\AuthController@logout');
 });

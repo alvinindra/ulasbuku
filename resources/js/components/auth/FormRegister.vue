@@ -26,7 +26,10 @@
 									</p>
 								</div>
 							</div>
-							<form class="signin-form">
+							<form
+								class="signin-form"
+								@submit.prevent="handleRegister"
+							>
 								<div class="form-group mt-3">
 									<label
 										class="form-control-placeholder"
@@ -34,6 +37,7 @@
 									>Nama Lengkap</label>
 									<input
 										type="text"
+										v-model="formRegister.name"
 										class="form-control"
 										required
 									>
@@ -44,7 +48,8 @@
 										for="email"
 									>Email</label>
 									<input
-										type="text"
+										type="email"
+										v-model="formRegister.email"
 										class="form-control"
 										required
 									>
@@ -90,6 +95,7 @@
 </template>
 
 <script style="scss" scoped>
+import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
@@ -100,6 +106,25 @@ export default {
 				passwordConfirm: "",
 			},
 		};
+	},
+	methods: {
+		...mapActions("auth", ["postRegister"]),
+		async handleRegister() {
+			try {
+				await this.postRegister(this.formRegister);
+				this.$message({
+					type: "success",
+					message: "Berhasil mendaftar",
+				});
+				this.$router.push("/login");
+			} catch (error) {
+				console.error(error);
+				this.$message({
+					type: "error",
+					message: error.response.data.message,
+				});
+			}
+		},
 	},
 };
 </script>

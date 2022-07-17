@@ -3,14 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Validator;
 use App\Models\User;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
+    public function profile() {
+        $user = Auth::user();
+        $user->total_reviews = $user->reviews()->count();
+        return $this->sendResponse($user, 'Data user berhasil didapatkan.');
+    }
+
+    public function listReviews(Request $request) {
+        $user = Auth::user();
+        $reviews = $user->reviews()->paginate()->withQueryString();
+        return $this->sendResponse($reviews, 'Data review berhasil didapatkan.');
+    }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -20,7 +33,12 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors());       
+            return response()
+            ->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $user = User::create([

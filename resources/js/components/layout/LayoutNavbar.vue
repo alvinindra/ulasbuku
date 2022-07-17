@@ -61,6 +61,8 @@ export default {
 		handleCommand(command) {
 			if (command === "logout") {
 				this.logout();
+			} else if (command === "profile") {
+				this.$router.push({ name: "ProfilePage" });
 			}
 		},
 		handleSearch() {

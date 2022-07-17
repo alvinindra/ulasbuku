@@ -2,9 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@store/store.js'
 
+function isLoggedIn (to, from, next) {
+    if (store.state.auth.loggedIn) {
+        next('/')
+        return false
+    } else {
+        next()
+    }
+}
+
 function requireAuth (to, from, next) {
     if (!store.state.auth.loggedIn) {
-        next('/login')
+        next('/')
         return false
     } else {
         next()
@@ -55,13 +64,23 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/profile',
+            name: 'ProfilePage',
+            component: () => import('@pages/ProfilePage.vue'),
+            meta: {
+                title: 'Profil - UlasBuku'
+            },
+            beforeEnter: requireAuth
+        },
+        {
             path: '/login',
             name: 'LoginPage',
             component: () => import('@pages/auth/LoginPage.vue'),
             meta: {
                 title: 'Masuk - UlasBuku',
                 layout: 'BasicLayout'
-            }
+            },
+            beforeEnter: isLoggedIn
         },
         {
             path: '/register',

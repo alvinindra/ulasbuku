@@ -30,7 +30,7 @@ const actions = {
             apiClient
                 .get('/profile')
                 .then(response => {
-                    commit('SET_USER', response.data)
+                    commit('SET_USER', response.data.data)
                     resolve(response)
                 })
                 .catch(error => {
@@ -42,6 +42,18 @@ const actions = {
         return new Promise((resolve, reject) => {
             apiClient
                 .post('/login', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
+    postRegister (_, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/register', payload)
                 .then(response => {
                     resolve(response)
                 })
