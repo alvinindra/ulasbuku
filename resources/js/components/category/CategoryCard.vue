@@ -5,7 +5,10 @@
 	>
 		<div class="card-category__body">
 			<div class="card-category__title">
-				Rindu
+				{{ category.name_category }}
+			</div>
+			<div class="card-category__subtitle">
+				Banyak buku: {{ category.total_books }}
 			</div>
 		</div>
 	</div>
@@ -14,16 +17,16 @@
 <script>
 export default {
 	props: {
-		book: {
+		category: {
 			type: Object,
 		},
 	},
 	methods: {
 		handleToDetail() {
 			this.$router.push({
-				name: "DetailBookPage",
-				params: {
-					id: 3,
+				name: "ListBookPage",
+				query: {
+					category: this.category.slug,
 				},
 			});
 		},
@@ -39,6 +42,18 @@ export default {
 	border-radius: 8px;
 	padding: 16px;
 	cursor: pointer;
+	transition: 0.1s all;
+	height: 100%;
+
+	&:hover {
+		box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.16);
+		background: #68a7ad;
+		color: #ffffff;
+
+		.card-category__subtitle {
+			color: white;
+		}
+	}
 
 	&__img {
 		margin-bottom: 24px;
@@ -48,13 +63,8 @@ export default {
 		font: normal normal 500 1.25rem "Merriweather", sans-serif;
 	}
 
-	&__rating {
-		margin-bottom: 8px;
-	}
-
-	&__author {
-		font: normal normal 400 14px "Nunito", sans-serif;
-		color: #5d5d5d;
+	&__subtitle {
+		color: #a6a6a6;
 	}
 }
 </style>

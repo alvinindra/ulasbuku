@@ -11,6 +11,7 @@ class CategoryController extends BaseController
 {
     public function index(Request $request)
     {
+        $perPage = $request->perPage ? intval($request->perPage) : 12;
         $categories = (new Category())->query();
         $categories->withCount('books as total_books');
         $categories->when($request->search, function($q) use ($request) {
@@ -22,7 +23,7 @@ class CategoryController extends BaseController
         })->when($request->filter === 'most_popular', function($q) {
             $q->orderBy('total_books', 'desc');
         });
-        $categories = $categories->paginate(12)->withQueryString();
+        $categories = $categories->paginate($perPage)->withQueryString();
         return $this->sendResponse($categories, 'Data berhasil ditampilkan');
     }
 }

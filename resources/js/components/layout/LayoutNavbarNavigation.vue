@@ -1,5 +1,5 @@
 <template>
-	<nav class="my-2 my-md-4 justify-content-center mx-auto d-flex">
+	<nav class="my-3 my-md-4 justify-content-center mx-auto d-flex">
 		<a
 			v-for="nav in listNavigation"
 			:key="nav.name"

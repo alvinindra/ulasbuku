@@ -19,30 +19,6 @@ use App\Http\Controllers\ReviewController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Auth::routes();
-
-// Frontend
-Route::get('/', function () {
-    return view('index');
-});
-
-Route::get('/book/{id}', function () {
-    return view('frontend.book.detail');
-});
-Route::get('/search', function () {
-    return view('frontend.book.list');
-});
-Route::get('/about', function () {
-    return view('frontend.general.about');
-});
-Route::get('/category', function () {
-    return view('frontend.category.list');
-});
-Route::get('/author', function () {
-    return view('frontend.author.list');
-});
-
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 // Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
@@ -50,12 +26,12 @@ Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('admin/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('admin/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
-Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+Route::get('admin/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('admin/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
 Route::get('password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -78,3 +54,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin|member']
     Route::resource('book', BookController::class);
     Route::resource('review', ReviewController::class);
 });
+
+// Front-End Routing
+Route::get('/{vue_capture?}', function () {
+    return view('index');
+})->where('vue_capture', '[\/\w\.-]*');

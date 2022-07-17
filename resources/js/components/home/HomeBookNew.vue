@@ -5,22 +5,49 @@
 		</div>
 		<div class="row">
 			<div
-				v-for="n in 6"
-				:key="n"
-				class="col-lg-2 col-6 mb-4"
+				v-for="book in books"
+				:key="book.id"
+				class="col-xl-2 col-lg-3 col-6 mb-4"
 			>
-				<CardBook />
+				<CardBook :book="book" />
 			</div>
 		</div>
 	</section>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import CardBook from "@components/base/CardBook.vue";
 
 export default {
+	data() {
+		return {
+			books: [],
+		};
+	},
 	components: {
 		CardBook,
+	},
+	methods: {
+		...mapActions("home", ["getListBooks"]),
+		async getBookNew() {
+			try {
+				const res = await this.getListBooks({
+					params: {
+						page: 1,
+						perPage: 6,
+						filter: "latest",
+					},
+				});
+
+				this.books = res.data.data.data;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+	},
+	mounted() {
+		this.getBookNew();
 	},
 };
 </script>

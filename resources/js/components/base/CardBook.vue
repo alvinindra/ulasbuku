@@ -6,17 +6,17 @@
 		<div class="card-book__img">
 			<img
 				class="w-100"
-				src="/assets/img/book/rindu-tere-liye.jpg"
+				:src="`/assets/img/cover/${book.cover}`"
 				alt=""
 			>
 		</div>
 		<div class="card-book__body">
 			<div class="card-book__title">
-				Rindu
+				{{ book.title }}
 			</div>
 			<div class="card-book__rating">
 				<star-rating
-					:rating="4.6"
+					:rating="book.total_rating"
 					:star-size="14"
 					:read-only="true"
 					:padding="4"
@@ -26,7 +26,7 @@
 				></star-rating>
 			</div>
 			<div class="card-book__author">
-				Tere Liye
+				{{ book.author.name_author }}
 			</div>
 
 		</div>
@@ -45,7 +45,7 @@ export default {
 			this.$router.push({
 				name: "DetailBookPage",
 				params: {
-					id: 3,
+					slug: this.book.slug,
 				},
 			});
 		},
@@ -61,16 +61,34 @@ export default {
 	border-radius: 8px;
 	padding: 16px;
 	cursor: pointer;
+	height: 100%;
 
 	&__img {
 		margin-bottom: 24px;
+
+		img {
+			height: 220px;
+			object-fit: cover;
+		}
+	}
+
+	&__body {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	&__title {
 		font: normal normal 500 1.25rem "Merriweather", sans-serif;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	&__rating {
+		margin-top: auto;
 		margin-bottom: 8px;
 	}
 

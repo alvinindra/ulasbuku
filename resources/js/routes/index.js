@@ -1,4 +1,24 @@
+import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@store/store.js'
+
+function isLoggedIn (to, from, next) {
+    if (store.state.auth.loggedIn) {
+        next('/')
+        return false
+    } else {
+        next()
+    }
+}
+
+function requireAuth (to, from, next) {
+    if (!store.state.auth.loggedIn) {
+        next('/')
+        return false
+    } else {
+        next()
+    }
+}
 
 const router = new VueRouter({
     mode: 'history',
@@ -12,7 +32,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/book/:id',
+            path: '/book/:slug',
             name: 'DetailBookPage',
             component: () => import('@pages/DetailBookPage.vue'),
             meta: {
@@ -42,6 +62,43 @@ const router = new VueRouter({
             meta: {
                 title: 'Kategori - UlasBuku'
             }
+        },
+        {
+            path: '/profile',
+            name: 'ProfilePage',
+            component: () => import('@pages/ProfilePage.vue'),
+            meta: {
+                title: 'Profil - UlasBuku'
+            },
+            beforeEnter: requireAuth
+        },
+        {
+            path: '/login',
+            name: 'LoginPage',
+            component: () => import('@pages/auth/LoginPage.vue'),
+            meta: {
+                title: 'Masuk - UlasBuku',
+                layout: 'BasicLayout'
+            },
+            beforeEnter: isLoggedIn
+        },
+        {
+            path: '/register',
+            name: 'RegisterPage',
+            component: () => import('@pages/auth/RegisterPage.vue'),
+            meta: {
+                title: 'Daftar Akun - UlasBuku',
+                layout: 'BasicLayout'
+            }
+        },
+        {
+            path: '*',
+            name: 'NotFoundPage',
+            component: () => import('@pages/404.vue'),
+            meta: {
+                title: 'Halaman Tidak Ditemukan - UlasBuku',
+                layout: 'BasicLayout'
+            }
         }
     ],
     scrollBehavior (to, from) {
@@ -51,6 +108,12 @@ const router = new VueRouter({
             return { x: 0, y: 0 }
         }
     }
+})
+
+router.afterEach((to, from) => {
+    Vue.nextTick(() => {
+        document.title = to.meta.title
+    })
 })
 
 export default router

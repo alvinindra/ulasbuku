@@ -38,7 +38,7 @@ export default {
 				{
 					id: 1,
 					name: "Alvin Indra Pratama",
-					description: "Front-End Developer",
+					description: "Full-Stack Developer",
 					img: "https://avatars.githubusercontent.com/u/30944414?v=4",
 				},
 				{
@@ -58,3 +58,9 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.card-img-top {
+	min-height: 260px;
+}
+</style>

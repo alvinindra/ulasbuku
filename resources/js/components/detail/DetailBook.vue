@@ -1,29 +1,29 @@
 <template>
-	<div class="container my-5">
+	<div
+		v-if="Object.keys(book).length"
+		class="container my-5"
+	>
 		<div class="row">
-			<div class="col-lg-4 col-12 text-center">
+			<div class="col-lg-4 col-12 text-center mb-5 mb-lg-0">
 				<img
 					class="img-fluid shadow p-4"
 					style="height: 300px"
-					src="/assets/img/book/rindu-tere-liye.jpg"
-					alt=""
+					:src="`/assets/img/cover/${book.cover}`"
+					:alt="book.title"
 				>
 			</div>
 			<div class="col-lg-8 col-12">
 				<div class="row">
 					<div class="col-12">
-						<h2 class="font-title">Rindu</h2>
+						<h2 class="font-title">{{ book.title }}</h2>
 					</div>
 					<div class="col-12 mb-1">
-						<h5 class="font-primary color-grey">Tere Liye</h5>
+						<h5 class="font-primary color-grey">{{ book.author.name_author }}</h5>
 					</div>
 					<div class="col-12">
 						<h6 class="font-primary font-weight-bold">Deskripsi Buku:</h6>
 						<p class="font-primary text-justify">
-							"Apalah arti memiliki, ketika did kami sendiri bukanlah milik kami?
-							Apalah arti kehilangan, ketika kami sebenarnya menemukan banyak saat kehilangan dan sebaliknya, kehilangan banyak pula saat menemukan?
-							Apalah arti cinta, ketika menangis terluka atas perasaan yg seharusnya indah? Bagaimana mungkin, kami terduduk patah hati atas sesuatu yang seharusnya suci dan tidak menuntut apa pun?
-							Wahai, bukankah banyak kerinduan saat kami hendak melupakan? Dan tidak terbilang keinginan melupakan saat kami dalam rindu? Hingga rindu dan melupakan jaraknya setipis benang saja"
+							{{ book.description }}
 						</p>
 					</div>
 					<div class="col-12">
@@ -32,7 +32,7 @@
 							data-toggle="modal"
 							data-target="#exampleModalCenter"
 							class="btn btn-primary"
-						>Ulas Buku</button>
+						>{{ book.is_reviewed !== null ? 'Perbarui Ulas Buku' : 'Ulas Buku'}}</button>
 					</div>
 				</div>
 			</div>
@@ -67,19 +67,21 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form @submit.prevent="postReview">
 							<div class="form-group mx-auto justify-content-center text-center">
 								<star-rating
+									v-model="formReview.rating"
 									:star-size="24"
 									:padding="4"
 									active-color="#B4D51E"
-									:increment="0.01"
+									:increment="1"
 									:show-rating="false"
 								></star-rating>
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput2">Deskripsi Ulasan</label>
 								<textarea
+									v-model="formReview.review_content"
 									class="form-control"
 									id="exampleFormControlTextarea1"
 									rows="3"
@@ -96,6 +98,7 @@
 						<button
 							type="button"
 							class="btn btn-primary"
+							@click="postReview"
 						>Simpan</button>
 					</div>
 				</div>
@@ -103,3 +106,96 @@
 		</div>
 	</div>
 </template>
+
+<script>
+import { mapState, mapActions } from "vuex";
+
+export default {
+	data() {
+		return {
+			book: {},
+			formReview: {
+				rating: 0,
+				review_content: "",
+			},
+		};
+	},
+	metaInfo() {
+		return {
+			title: `Detail Buku - UlasBuku`,
+			titleTemplate: `${this.book.title} - UlasBuku`,
+		};
+	},
+	computed: {
+		...mapState("auth", ["user", "loggedIn"]),
+	},
+	methods: {
+		...mapActions("book", [
+			"getBook",
+			"getListDetailReviews",
+			"getDetailReview",
+			"postSaveReview",
+			"postEditReview",
+		]),
+		async initComponent() {
+			const res = await this.getBook(this.$route.params.slug);
+			this.book = res.data.data;
+			const resReview = await this.getDetailReview(this.$route.params.slug);
+			this.formReview.rating = resReview.data.data.rating;
+			this.formReview.review_content = resReview.data.data.review_content;
+		},
+		async postReview() {
+			if (this.loggedIn) {
+				if (this.book.is_reviewed !== null) {
+					try {
+						const payload = {
+							slug: this.$route.params.slug,
+							data: {
+								rating: this.formReview.rating,
+								review_content: this.formReview.review_content,
+							},
+						};
+
+						await this.postEditReview(payload);
+						this.$message({
+							message: "Ulasan berhasil diubah",
+							type: "success",
+						});
+					} catch (error) {
+						console.log(error);
+						this.$message({
+							message: "Error sayang",
+							type: "error",
+						});
+					}
+				} else {
+					try {
+						const payload = {
+							id: this.book.id,
+							rating: this.formReview.rating,
+							review_content: this.formReview.review_content,
+						};
+
+						await this.postSaveReview(payload);
+						this.$message({
+							message: "Ulasan berhasil disimpan",
+							type: "success",
+						});
+					} catch (error) {
+						console.log(error);
+						this.$message({
+							message: "Error sayang",
+							type: "error",
+						});
+					}
+				}
+			} else {
+				this.$router.push("/login");
+			}
+		},
+	},
+	mounted() {
+		this.initComponent();
+	},
+};
+</script>

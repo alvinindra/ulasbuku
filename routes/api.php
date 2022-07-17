@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/books', 'App\Http\Controllers\Api\BooksController@index');
 Route::get('/books/{slug}', 'App\Http\Controllers\Api\BooksController@show');
-Route::get('/books/{id}/reviews', 'App\Http\Controllers\Api\BooksController@listReviews');
+Route::get('/books/{slug}/reviews', 'App\Http\Controllers\Api\BooksController@listReviews');
+
+Route::get('/review/{slug}', 'App\Http\Controllers\Api\ReviewController@show');
 
 Route::get('/category', 'App\Http\Controllers\Api\CategoryController@index');
 
@@ -24,11 +26,10 @@ Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/review', 'App\Http\Controllers\Api\ReviewController@store');
-    Route::post('/review/{id}', 'App\Http\Controllers\Api\ReviewController@edit');
+    Route::post('/review/{slug}', 'App\Http\Controllers\Api\ReviewController@edit');
 
-    Route::get('/profile', function(Request $request) {
-        return auth()->user();
-    });
+    Route::get('/profile', 'App\Http\Controllers\Api\AuthController@profile');
+    Route::get('/user/reviews', 'App\Http\Controllers\Api\AuthController@listReviews');
     
     Route::post('/logout', 'App\Http\Controllers\Api\AuthController@logout');
 });
