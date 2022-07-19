@@ -21,7 +21,7 @@ use App\Http\Controllers\ReviewController;
 */
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
-// Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
+Route::get('admin/fajar/{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
