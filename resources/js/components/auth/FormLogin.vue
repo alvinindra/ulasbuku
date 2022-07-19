@@ -101,7 +101,6 @@ export default {
 				};
 				const res = await this.postLogin(payload);
 				this.getProfile();
-				console.log(res.data);
 				localStorage.setItem("token", res.data.access_token);
 				this.$message({
 					showClose: true,
