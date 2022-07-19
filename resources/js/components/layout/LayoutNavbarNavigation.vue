@@ -16,12 +16,12 @@ export default {
 		return {
 			listNavigation: [
 				{
-					name: "Home",
+					name: "Beranda",
 					pageName: "HomePage",
 					url: "/",
 				},
 				{
-					name: "Category",
+					name: "Kategori",
 					pageName: "CategoryPage",
 					url: "/category",
 				},
@@ -31,7 +31,7 @@ export default {
 				// 	url: "/author",
 				// },
 				{
-					name: "About",
+					name: "Tentang",
 					pageName: "AboutPage",
 					url: "/about",
 				},

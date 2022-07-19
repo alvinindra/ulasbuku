@@ -38,6 +38,18 @@ const actions = {
                 })
         })
     },
+    getListReviews ({ commit }) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .get('/user/reviews')
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     postLogin (_, payload) {
         return new Promise((resolve, reject) => {
             apiClient

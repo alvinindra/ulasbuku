@@ -3,12 +3,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12 text-center mb-4">
-					<h4 class="font-title">UlasBuku - Tim</h4>
+					<h4 class="font-title">Tim Developer</h4>
 				</div>
 				<div
 					v-for="team in listTeam"
 					:key="team.id"
-					class="col-lg-4 text-center mb-4"
+					class="col-lg-6 text-center mb-5"
 				>
 					<div
 						class="card mx-auto"
@@ -52,6 +52,12 @@ export default {
 					name: "Fajar Kurnia",
 					description: "Front-End Developer",
 					img: "https://avatars.githubusercontent.com/u/93042623?v=4",
+				},
+				{
+					id: 4,
+					name: "Nahdia Fauziah",
+					description: "Front-End Developer",
+					img: "https://media-exp2.licdn.com/dms/image/C5603AQHEAzdeKJ5Fiw/profile-displayphoto-shrink_400_400/0/1622864690081?e=1663804800&v=beta&t=Cyap3silFmyf2ueLSwFXHloINBRLwE-09VN0eSL23WM",
 				},
 			],
 		};

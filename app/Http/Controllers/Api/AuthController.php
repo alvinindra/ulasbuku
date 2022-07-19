@@ -18,9 +18,31 @@ class AuthController extends BaseController
         return $this->sendResponse($user, 'Data user berhasil didapatkan.');
     }
 
+    public function edit(Request $request) {
+        $input = $request->all();
+        $user = Auth::user();
+
+        $validator = Validator::make($input, [
+            'name' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()
+            ->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user->name = $request->name;
+        $user->save();
+        return $this->sendResponse($user, 'Data user berhasil diubah.');
+    } 
+
     public function listReviews(Request $request) {
         $user = Auth::user();
-        $reviews = $user->reviews()->paginate()->withQueryString();
+        $reviews = $user->reviews()->with('book')->paginate()->withQueryString();
         return $this->sendResponse($reviews, 'Data review berhasil didapatkan.');
     }
 
