@@ -2,7 +2,8 @@
     <div class="scrollbar-inner scroll-scrollx_visible">
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="{{ route('admin') }}">
-                <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+                {{-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> --}}
+                UlasBuku
             </a>
             <div class="ml-auto">
                 <!-- Sidenav toggler -->
@@ -21,32 +22,31 @@
                 <!-- Nav items -->
                 <ul class="navbar-nav">
                     <li class="nav-item {{ $parentSection == 'dashboards' ? 'active' : '' }}">
-                        <a class="nav-link collapsed" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'dashboards' ? 'true' : '' }}" aria-controls="navbar-dashboards">
+                        <a class="nav-link collapsed" href="{{ route('admin.page.index','tabelDashboard') }}" data-toggle="" role="button" aria-expanded="{{ $parentSection == 'dashboards' ? 'true' : '' }}" aria-controls="navbar-dashboards">
                             <i class="ni ni-shop text-primary"></i>
                             <span class="nav-link-text">{{ __('Dashboards') }}</span>
                         </a>
                         <div class="collapse {{ $parentSection == 'dashboards' ? 'show' : '' }}" id="navbar-dashboards">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'dashboard' ? 'active' : '' }}">
-                                    <a href="{{ route('admin') }}" class="nav-link">{{ __('Dashboard') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'dashboard-alternative' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','dashboard-alternative') }}" class="nav-link">{{ __('Alternative') }}</a>
+                                <li class="nav-item {{ $elementName == 'tabelDashboard' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelDashboard') }}" class="nav-link">{{ __('Dashboard') }}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item class="nav-item {{ $parentSection == 'kelolaBuku' ? 'active' : '' }}"">
                         <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                            <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                            <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
+                            {{-- <i class="fab fa-laravel" style="color: #f4645f;"></i> --}}
+                            <i class="ni ni-books"></i>
+                            <span class="nav-link-text" style="color: #f4645f;">{{ __('Kelola Buku') }}</span>
                         </a>
-                        <div class="collapse show" id="navbar-examples">
+                        <div class="collapse {{ $parentSection == 'kelolaBuku' ? 'show' : '' }}" id="navbar-examples">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'profile' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.profile.edit') }}" class="nav-link">{{ __('Profile') }}</a>
+                                <li class="nav-item {{ $elementName == 'tabelBuku' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelBuku') }}" class="nav-link">{{ __('Tabel Buku') }}</a>
                                 </li>
-                                @can('manage-users', App\Models\User::class)
+                                
+                                {{-- @can('manage-users', App\Models\User::class)
                                     <li class="nav-item  {{ $elementName == 'role-management' ? 'active' : '' }}">
                                         <a href="{{ route('role.index') }}" class="nav-link">{{ __('Role Management') }}</a>
                                     </li>
@@ -74,31 +74,25 @@
                                     <li class="nav-item {{ $elementName == 'item-management' ? 'active' : '' }}">
                                         <a href="{{ route('admin') }}" class="nav-link">{{ __('Items') }}</a>
                                     </li>
-                                @endcan
+                                @endcan --}}
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $parentSection == 'pages' ? 'active' : '' }}">
-                        <a class="nav-link" href="#navbar-pages" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'pages' ? 'true' : '' }}" aria-controls="navbar-pages">
-                            <i class="ni ni-collection text-yellow"></i>
-                            <span class="nav-link-text">{{ __('Pages') }}</span>
+                    
+                    <li class="nav-item {{ $parentSection == 'kelolaReview' ? 'active' : '' }}">
+                        <a class="nav-link" href="#navbar-components" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaReview' ? 'true' : '' }}" aria-controls="navbar-components">
+                            {{-- <i class="ni ni-ui-04 text-info"></i> --}}
+                            <i class="ni ni-chat-round"></i>
+                            <span class="nav-link-text">{{ __('Kelola Review') }}</span>
                         </a>
-                        <div class="collapse {{ $parentSection == 'pages' ? 'show' : '' }}" id="navbar-pages">
+                        <div class="collapse {{ $parentSection == 'kelolaReview' ? 'show' : '' }}" id="navbar-components">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'timeline' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index', 'timeline') }}" class="nav-link">{{ __('Timeline') }}</a>
+
+                                <li class="nav-item {{ $elementName == 'tabelReview' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelReview') }}" class="nav-link">{{ __('Tabel Reviews') }}</a>
                                 </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item {{ $parentSection == 'components' ? 'active' : '' }}">
-                        <a class="nav-link" href="#navbar-components" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'components' ? 'true' : '' }}" aria-controls="navbar-components">
-                            <i class="ni ni-ui-04 text-info"></i>
-                            <span class="nav-link-text">{{ __('Components') }}</span>
-                        </a>
-                        <div class="collapse {{ $parentSection == 'components' ? 'show' : '' }}" id="navbar-components">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'buttons' ? 'active' : '' }}">
+                                
+                                {{-- <li class="nav-item {{ $elementName == 'buttons' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','buttons') }}" class="nav-link">{{ __('Buttons') }}</a>
                                 </li>
                                 <li class="nav-item {{ $elementName == 'cards' ? 'active' : '' }}">
@@ -131,18 +125,23 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
-                        <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'forms' ? 'true' : '' }}" aria-controls="navbar-forms">
-                            <i class="ni ni-single-copy-04 text-pink"></i>
-                            <span class="nav-link-text">{{ __('Forms') }}</span>
+                    <li class="nav-item {{ $parentSection == 'kelolaAuthor' ? 'active' : '' }}">
+                        <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaAuthor' ? 'true' : '' }}" aria-controls="navbar-forms">
+                            {{-- <i class="ni ni-single-copy-04 text-pink"></i> --}}
+                            <i class="ni ni-single-02"></i>
+                            <span class="nav-link-text">{{ __('Kelola Author') }}</span>
                         </a>
-                        <div class="collapse {{ $parentSection == 'forms' ? 'show' : '' }}" id="navbar-forms">
+                        
+                        <div class="collapse {{ $parentSection == 'kelolaAuthor' ? 'show' : '' }}" id="navbar-forms">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'elements' ? 'active' : '' }}">
+                                <li class="nav-item {{ $elementName == 'tabelPenulis' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelPenulis') }}" class="nav-link">{{ __('Tabel Penulis') }}</a>
+                                </li>
+                                {{-- <li class="nav-item {{ $elementName == 'elements' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','elements') }}" class="nav-link">{{ __('Elements') }}</a>
                                 </li>
                                 <li class="nav-item {{ $elementName == 'components' ? 'active' : '' }}">
@@ -150,96 +149,54 @@
                                 </li>
                                 <li class="nav-item {{ $elementName == 'validations' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','validation') }}" class="nav-link">{{ __('Validations') }}</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $parentSection == 'tables' ? 'active' : '' }}">
-                        <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'tables' ? 'true' : '' }}" aria-controls="navbar-tables">
-                            <i class="ni ni-align-left-2 text-default"></i>
-                            <span class="nav-link-text">{{ __('Tables') }}</span>
+                    <li class="nav-item {{ $parentSection == 'kelolaPengguna' ? 'active' : '' }}">
+                        <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaPengguna' ? 'true' : '' }}" aria-controls="navbar-tables">
+                            {{-- <i class="ni ni-align-left-2 text-default"></i> --}}
+                            <i class="ni ni-circle-08"></i>
+                            <span class="nav-link-text">{{ __('Kelola Pengguna') }}</span>
                         </a>
-                        <div class="collapse {{ $parentSection == 'tables' ? 'show' : '' }}" id="navbar-tables">
+                        <div class="collapse {{ $parentSection == 'kelolaPengguna' ? 'show' : '' }}" id="navbar-tables">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'tables' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tables') }}" class="nav-link">{{ __('Tables') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'sortable' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','sortable') }}" class="nav-link">{{ __('Sortable') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'datatables' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','datatables') }}" class="nav-link">{{ __('Datatables') }}</a>
+                                <li class="nav-item {{ $elementName == 'tabelPengguna' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelPengguna') }}" class="nav-link">{{ __('Tabel Pengguna') }}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $parentSection == 'maps' ? 'active' : '' }}">
-                        <a class="nav-link" href="#navbar-maps" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'maps' ? 'true' : '' }}" aria-controls="navbar-maps">
-                            <i class="ni ni-map-big text-primary"></i>
-                            <span class="nav-link-text">{{ __('Maps') }}</span>
+
+                    <li class="nav-item {{ $parentSection == 'kelolaKategori' ? 'active' : '' }}">
+                        <a class="nav-link" href="#navbar-pages" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaKategori' ? 'true' : '' }}" aria-controls="navbar-tables">
+                            {{-- <i class="ni ni-align-left-2 text-default"></i> --}}
+                            <i class="ni ni-bullet-list-67"></i>
+                            <span class="nav-link-text">{{ __('Kelola Kategori') }}</span>
                         </a>
-                        <div class="collapse {{ $parentSection == 'maps' ? 'show' : '' }}" id="navbar-maps">
+                        <div class="collapse {{ $parentSection == 'kelolaKategori' ? 'show' : '' }}" id="navbar-pages">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'google' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','googlemaps') }}" class="nav-link">{{ __('Google') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'vector' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','vectormaps') }}" class="nav-link">{{ __('Vector') }}</a>
+                                <li class="nav-item {{ $elementName == 'tabelKategori' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelKategori') }}" class="nav-link">{{ __('Tabel Kategori') }}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $elementName == 'widgets' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.page.index','widgets') }}">
-                            <i class="ni ni-archive-2 text-green"></i>
-                            <span class="nav-link-text">{{ __('Widgets') }}</span>
+
+                    <li class="nav-item {{ $parentSection == 'kelolaPublisher' ? 'active' : '' }}">
+                        <a class="nav-link" href="#navbar-maps" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaPublisher' ? 'true' : '' }}" aria-controls="navbar-forms">
+                            {{-- <i class="ni ni-single-copy-04 text-pink"></i> --}}
+                            <i class="ni ni-building"></i>
+                            <span class="nav-link-text">{{ __('Kelola Publisher') }}</span>
                         </a>
+                        
+                        <div class="collapse {{ $parentSection == 'kelolaPublisher' ? 'show' : '' }}" id="navbar-maps">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item {{ $elementName == 'tabelPublisher' ? 'active' : '' }}">
+                                    <a href="{{ route('admin.page.index','tabelPublisher') }}" class="nav-link">{{ __('Tabel Publisher') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item {{ $elementName == 'charts' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.page.index','charts') }}">
-                            <i class="ni ni-chart-pie-35 text-info"></i>
-                            <span class="nav-link-text">{{ __('Charts') }}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ $elementName == 'calendar' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.page.index','calendar') }}">
-                            <i class="ni ni-calendar-grid-58 text-red"></i>
-                            <span class="nav-link-text">{{ __('Calendar') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <!-- Divider -->
-                <hr class="my-3">
-                <!-- Heading -->
-                <h6 class="navbar-heading p-0 text-muted">{{ __('Documentation') }}</h6>
-                <!-- Navigation -->
-                <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/docs/getting-started/overview.html') }}" target="_blank">
-                            <i class="ni ni-spaceship"></i>
-                            <span class="nav-link-text">Getting started</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/docs/foundation/colors.html') }}" target="_blank">
-                            <i class="ni ni-palette"></i>
-                            <span class="nav-link-text">Foundation</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/docs/components/alerts.html') }}" target="_blank">
-                            <i class="ni ni-ui-04"></i>
-                            <span class="nav-link-text">Components</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/docs/plugins/charts.html') }}" target="_blank">
-                            <i class="ni ni-chart-pie-35"></i>
-                            <span class="nav-link-text">Plugins</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+                    
 </nav>
