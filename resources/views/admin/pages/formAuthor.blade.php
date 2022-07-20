@@ -15,6 +15,17 @@
         @endcomponent 
     @endcomponent
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> Input gagal.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="container mt--6">
         <div class="row">
             <div class="col-lg-12">
@@ -27,26 +38,15 @@
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
-                            <form method="POST" action="">
+                            <form method="POST" action="{{ route('author.store') }}">
+                                @csrf
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Name Author</label>
+                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Author Name</label>
                                     <div class="col-md-10">
-                                        <input name="nameAuthor" class="form-control" type="text" placeholder="" id="">
+                                        <input name="name_author" class="form-control" type="text" placeholder="" id="">
                                     </div>
                                 </div>
-                               
-                                <div class="form-group row">
-                                    <label for="example-datetime-local-input" class="col-md-2 col-form-label form-control-label">Created At</label>
-                                    <div class="col-md-10">
-                                        <input name="createdAt" class="form-control" type="date" value="2018-11-23" id="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-datetime-local-input" class="col-md-2 col-form-label form-control-label">Updated At</label>
-                                    <div class="col-md-10">
-                                        <input name="updatedAt" class="form-control" type="date" value="2018-11-23" id="">
-                                    </div>
-                                </div>
+                        
                                 <button class="btn btn-primary" type="submit">Submit</button>
                             </form>
                         </div>
@@ -57,7 +57,7 @@
             </div>
         </div>
         <!-- Footer -->
-        @include('admin.layouts.footers.auth')
+        {{-- @include('admin.layouts.footers.auth') --}}
     </div>
 @endsection
 

@@ -1,17 +1,17 @@
 @extends('admin.layouts.app', [
-    'parentSection' => 'kelolaPublisher',
-    'elementName' => 'tabelPublisher'
+    'parentSection' => 'kelolaAuthor',
+    'elementName' => 'tabelAuthor'
 ])
 
 @section('content') 
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Kelola Publisher') }} 
+                {{ __('Kelola Author') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelPublisher') }}">{{ __('Kelola Publisher') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('Tabel Publisher') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelAuthor') }}">{{ __('Kelola Penulis') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Tabel Author') }}</li>
         @endcomponent 
     @endcomponent
     
@@ -23,7 +23,7 @@
                     <!-- Card header -->
                     <div class="card-header">
                         
-                        <h3 class="mb-0">Tabel Publisher</h3>
+                        <h3 class="mb-0">Tabel Author</h3>
                         {{-- <p class="text-sm mb-0">
                             This is an exmaple of datatable using the well known datatables.net plugin. This is a minimal setup in order to get started
                             fast.
@@ -31,25 +31,25 @@
                         
                     </div>
                     <div class="card-header">
-                        <a href="{{ url('/admin/publisher/create') }}" role="button" class="btn btn-primary ms-6">Tambah Publisher</a>
+                        <a href="{{ url('admin/author/create') }}" role="button" class="btn btn-primary ms-6">Tambah Author</a>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
                             <thead>
                                 <tr>
                                   <th scope="col">#</th>
-                                  <th scope="col">publisher</th>
+                                  <th scope="col">Author</th>
                                   <th scope="col">Action</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                  @foreach ($publisher as $data)
+                                  @foreach ($author as $data)
                                 <tr>
                                   <th scope="row">{{ ++$i }}</th>
-                                  <td>{{ $data->name_publisher}}</td>
+                                  <td>{{ $data->name_author}}</td>
                                   <td>
-                                  <form action="{{ route('publisher.destroy',$data->id) }}" method="POST">
-                                  <a class="btn btn-primary btn-sm" href="{{ route('publisher.edit',$data->id) }}">Edit</a> |
+                                  <form action="{{ route('author.destroy',$data->id) }}" method="POST">
+                                  <a class="btn btn-primary btn-sm" href="{{ route('author.edit',$data->id) }}">Edit</a> |
                                   @csrf
                                   @method('DELETE')
                                   <button type="submit" class="btn btn-danger btn-sm">Delete</button onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">

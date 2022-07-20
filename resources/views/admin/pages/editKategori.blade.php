@@ -1,26 +1,25 @@
 @extends('admin.layouts.app', [
-    'parentSection' => 'kelolaPublisher',
-    'elementName' => 'formPublisher'
+    'parentSection' => 'kelolaKategori',
+    'elementName' => 'formKategori'
 ])
 
 @section('content') 
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Form Publisher') }} 
+                {{ __('Category') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'formPublisher') }}">{{ __('Kelola Publisher') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('Form Publisher') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'editKategori') }}">{{ __('Kelola Kategori') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Edit Kategori') }}</li>
         @endcomponent 
     @endcomponent
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> Input gagal.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
@@ -34,19 +33,29 @@
                     <div class="card">
                         <!-- Card header -->
                         <div class="card-header">
-                            <h3 class="mb-0">Form Publisher</h3>
+                            <h3 class="mb-0">Edit Kategori</h3>
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
-                            <form method="POST" action="{{ route('publisher.store') }}">
+                            <form method="POST" action="{{ route('category.update',$category->id) }}">
                                 @csrf
+                                @method('PUT')
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Name Publisher</label>
+                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Category</label>
                                     <div class="col-md-10">
-                                        <input name="name_publisher" class="form-control" type="text" placeholder="" id="">
+                                        <input value="{{ $category->name_category }}" name="name_category" class="form-control" type="text" placeholder="" id="">
                                     </div>
                                 </div>
-                                <button class="btn btn-primary" type="submit">Submit</button>
+
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Slug</label>
+                                    <div class="col-md-10">
+                                        <input name="slug" class="form-control" type="text" placeholder="" id="">
+                                    </div>
+                                </div>
+                               
+                                
+                                <button class="btn btn-primary" type="submit">Update</button>
                             </form>
                         </div>
                     </div>

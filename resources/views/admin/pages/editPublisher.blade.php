@@ -7,17 +7,17 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Form Publisher') }} 
+                {{ __('Edit Publisher') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'formPublisher') }}">{{ __('Kelola Publisher') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'editPublisher') }}">{{ __('Kelola Publisher') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Form Publisher') }}</li>
         @endcomponent 
     @endcomponent
 
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> Input gagal.<br><br>
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -38,12 +38,14 @@
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
-                            <form method="POST" action="{{ route('publisher.store') }}">
+                            <form method="POST" action="{{ route('publisher.update',$publisher->id) }}">
                                 @csrf
+                                @method('PUT')
+
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Name Publisher</label>
                                     <div class="col-md-10">
-                                        <input name="name_publisher" class="form-control" type="text" placeholder="" id="">
+                                        <input name="name_publisher" class="form-control" type="text" value="{{ $publisher->name_publisher }}">
                                     </div>
                                 </div>
                                 <button class="btn btn-primary" type="submit">Submit</button>

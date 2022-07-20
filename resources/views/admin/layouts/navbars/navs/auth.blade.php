@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search form -->
-            <form class="navbar-search {{ $searchClass ?? 'navbar-search-light' }} form-inline mr-sm-3"
+            {{-- <form class="navbar-search {{ $searchClass ?? 'navbar-search-light' }} form-inline mr-sm-3"
                 id="navbar-search-main">
                 <div class="form-group mb-0">
                     <div class="input-group input-group-alternative input-group-merge">
@@ -17,10 +17,10 @@
                     aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
-            </form>
+            </form> --}}
             <!-- Navbar links -->
             <ul class="navbar-nav align-items-center ml-md-auto">
-                <li class="nav-item d-xl-none">
+                {{-- <li class="nav-item d-xl-none">
                     <!-- Sidenav toggler -->
                     <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin"
                         data-target="#sidenav-main">
@@ -30,8 +30,8 @@
                             <i class="sidenav-toggler-line"></i>
                         </div>
                     </div>
-                </li>
-                <li class="nav-item d-none d-lg-block ml-lg-4" id="docs">
+                </li> --}}
+                {{-- <li class="nav-item d-none d-lg-block ml-lg-4" id="docs">
                     <a href="{{ url('/docs/getting-started/overview.html') }}" target="_blank"
                         class="btn btn-neutral btn-documentation btn-icon">
                         <span class="btn-inner--icon">
@@ -39,8 +39,8 @@
                         </span>
                         <span class="nav-link-inner--text">Documentation</span>
                     </a>
-                </li>
-                <li class="nav-item d-sm-none">
+                </li> --}}
+                {{-- <li class="nav-item d-sm-none">
                     <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
                         <i class="ni ni-zoom-split-in"></i>
                     </a>
@@ -53,8 +53,8 @@
                         </span>
                         <span class="nav-link-inner--text">Purchase now</span>
                     </a>
-                </li>
-                <li class="nav-item dropdown">
+                </li> --}}
+                {{-- <li class="nav-item dropdown">
                     <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
@@ -171,8 +171,8 @@
                         <!-- View all -->
                         <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
                     </div>
-                </li>
-                <li class="nav-item dropdown">
+                </li> --}}
+                {{-- <li class="nav-item dropdown">
                     <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="ni ni-ungroup"></i>
@@ -217,7 +217,7 @@
                             </a>
                         </div>
                     </div>
-                </li>
+                </li> --}}
             </ul>
             <ul class="navbar-nav align-items-center ml-auto ml-md-0" id="logout">
                 <li class="nav-item dropdown">
@@ -239,6 +239,9 @@
                             <i class="ni ni-user-run"></i>
                             <span>{{ __('Logout') }}</span>
                         </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </li>
             </ul>

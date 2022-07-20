@@ -16,7 +16,7 @@ class PublisherController extends Controller
     public function index()
     {
         $publisher = Publisher::paginate(10);
-        return view('publisher.index',compact('publisher'))->with('i', (request()->input('page', 1) -1) * 10);
+        return view('admin.pages.tabelPublisher',compact('publisher'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -26,7 +26,7 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        return view('publisher.create');
+        return view('admin.pages.formPublisher');
     }
 
     /**
@@ -65,7 +65,7 @@ class PublisherController extends Controller
     public function edit($id)
     {
         $publisher = Publisher::findOrFail($id);
-        return view('publisher.edit', compact('publisher'));
+        return view('admin.pages.editPublisher', compact('publisher'));
     }
 
     /**
@@ -81,7 +81,7 @@ class PublisherController extends Controller
             'name_publisher' => 'required',
         ]);
 
-        $category->update($request->all());
+        $publisher->update($request->all());
 
         return redirect()->route('publisher.index')->with('succes','Publisher Berhasil di Update');
     }

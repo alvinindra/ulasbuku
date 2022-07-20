@@ -11,6 +11,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -43,13 +50,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      search: ""
+      search: this.$route.query.q || ""
     };
   },
-  methods: {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)("auth", ["user", "loggedIn"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("auth", ["logout"])), {}, {
+    handleCommand: function handleCommand(command) {
+      if (command === "logout") {
+        this.logout();
+      } else if (command === "profile") {
+        this.$router.push({
+          name: "ProfilePage"
+        });
+      }
+    },
     handleSearch: function handleSearch() {
       var value = this.search;
       var input = value.charAt(value.length - 1);
@@ -68,11 +100,13 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push({
         name: "ListBookPage",
         query: {
-          q: this.search
+          q: this.search,
+          filter: this.$route.query.sort || "",
+          category: this.$route.query.category || ""
         }
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -103,11 +137,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       listNavigation: [{
-        name: "Home",
+        name: "Beranda",
         pageName: "HomePage",
         url: "/"
       }, {
-        name: "Category",
+        name: "Kategori",
         pageName: "CategoryPage",
         url: "/category"
       }, // {
@@ -116,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
       // 	url: "/author",
       // },
       {
-        name: "About",
+        name: "Tentang",
         pageName: "AboutPage",
         url: "/about"
       }]
@@ -955,15 +989,51 @@ var render = function () {
             ]
           ),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-outline-primary",
-              attrs: { href: "/login" },
-            },
-            [_vm._v("Masuk")]
-          ),
-        ]
+          _vm.loggedIn
+            ? _c(
+                "el-dropdown",
+                { on: { command: _vm.handleCommand } },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "el-dropdown-link text-capitalize" },
+                    [
+                      _vm._v("\n\t\t\t\tHalo, " + _vm._s(_vm.user.name)),
+                      _c("i", {
+                        staticClass: "el-icon-arrow-down el-icon--right",
+                      }),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-dropdown-menu",
+                    { attrs: { slot: "dropdown" }, slot: "dropdown" },
+                    [
+                      _c(
+                        "el-dropdown-item",
+                        { attrs: { command: "profile" } },
+                        [_vm._v("Akun Saya")]
+                      ),
+                      _vm._v(" "),
+                      _c("el-dropdown-item", { attrs: { command: "logout" } }, [
+                        _vm._v("Logout"),
+                      ]),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              )
+            : _c(
+                "a",
+                {
+                  staticClass: "btn btn-outline-primary",
+                  attrs: { href: "/login" },
+                },
+                [_vm._v("Masuk")]
+              ),
+        ],
+        1
       ),
     ]
   )
@@ -1004,7 +1074,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "my-2 my-md-4 justify-content-center mx-auto d-flex" },
+    { staticClass: "my-3 my-md-4 justify-content-center mx-auto d-flex" },
     _vm._l(_vm.listNavigation, function (nav) {
       return _c(
         "a",

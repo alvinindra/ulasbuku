@@ -43,7 +43,7 @@
                         <div class="collapse {{ $parentSection == 'kelolaBuku' ? 'show' : '' }}" id="navbar-examples">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ $elementName == 'tabelBuku' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tabelBuku') }}" class="nav-link">{{ __('Tabel Buku') }}</a>
+                                    <a href="{{ url('admin/book') }}" class="nav-link">{{ __('Tabel Buku') }}</a>
                                 </li>
                                 
                                 {{-- @can('manage-users', App\Models\User::class)
@@ -89,7 +89,7 @@
                             <ul class="nav nav-sm flex-column">
 
                                 <li class="nav-item {{ $elementName == 'tabelReview' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tabelReview') }}" class="nav-link">{{ __('Tabel Reviews') }}</a>
+                                    <a href="{{ url('admin/review') }}" class="nav-link">{{ __('Tabel Reviews') }}</a>
                                 </li>
                                 
                                 {{-- <li class="nav-item {{ $elementName == 'buttons' ? 'active' : '' }}">
@@ -138,8 +138,8 @@
                         
                         <div class="collapse {{ $parentSection == 'kelolaAuthor' ? 'show' : '' }}" id="navbar-forms">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $elementName == 'tabelPenulis' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tabelPenulis') }}" class="nav-link">{{ __('Tabel Penulis') }}</a>
+                                <li class="nav-item {{ $elementName == 'tabelAuthor' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/author') }}" class="nav-link">{{ __('Tabel Author') }}</a>
                                 </li>
                                 {{-- <li class="nav-item {{ $elementName == 'elements' ? 'active' : '' }}">
                                     <a href="{{ route('admin.page.index','elements') }}" class="nav-link">{{ __('Elements') }}</a>
@@ -153,10 +153,10 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item {{ $parentSection == 'kelolaPengguna' ? 'active' : '' }}">
+                    {{-- <li class="nav-item {{ $parentSection == 'kelolaPengguna' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaPengguna' ? 'true' : '' }}" aria-controls="navbar-tables">
                             {{-- <i class="ni ni-align-left-2 text-default"></i> --}}
-                            <i class="ni ni-circle-08"></i>
+                            {{-- <i class="ni ni-circle-08"></i>
                             <span class="nav-link-text">{{ __('Kelola Pengguna') }}</span>
                         </a>
                         <div class="collapse {{ $parentSection == 'kelolaPengguna' ? 'show' : '' }}" id="navbar-tables">
@@ -166,7 +166,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}} 
 
                     <li class="nav-item {{ $parentSection == 'kelolaKategori' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-pages" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'kelolaKategori' ? 'true' : '' }}" aria-controls="navbar-tables">
@@ -177,7 +177,7 @@
                         <div class="collapse {{ $parentSection == 'kelolaKategori' ? 'show' : '' }}" id="navbar-pages">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ $elementName == 'tabelKategori' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tabelKategori') }}" class="nav-link">{{ __('Tabel Kategori') }}</a>
+                                    <a href="{{ url('admin/category') }}" class="nav-link">{{ __('Tabel Kategori') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -193,7 +193,7 @@
                         <div class="collapse {{ $parentSection == 'kelolaPublisher' ? 'show' : '' }}" id="navbar-maps">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ $elementName == 'tabelPublisher' ? 'active' : '' }}">
-                                    <a href="{{ route('admin.page.index','tabelPublisher') }}" class="nav-link">{{ __('Tabel Publisher') }}</a>
+                                    <a href="{{ url('/admin/publisher') }}" class="nav-link">{{ __('Tabel Publisher') }}</a>
                                 </li>
                             </ul>
                         </div>

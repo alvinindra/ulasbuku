@@ -16,7 +16,7 @@ class AuthorController extends Controller
     public function index()
     {
         $author = Author::paginate(10);
-        return view('author.index',compact('author'))->with('i', (request()->input('page', 1) -1) * 10);
+        return view('admin.pages.tabelAuthor',compact('author'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -26,7 +26,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('author.create');
+        return view('admin.pages.formAuthor');
     }
 
     /**
@@ -65,7 +65,7 @@ class AuthorController extends Controller
     public function edit($id)
     {
         $author = Author::findOrFail($id);
-        return view('author.edit', compact('author'));
+        return view('admin.pages.editAuthor', compact('author'));
     }
 
     /**

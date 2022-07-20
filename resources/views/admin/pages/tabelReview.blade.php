@@ -7,13 +7,19 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Tabel Review') }} 
+                {{ __('Kelola Review') }} 
             @endslot
 
             <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelReview') }}">{{ __('Kelola Review') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Tabel Review') }}</li>
         @endcomponent 
     @endcomponent
+
+    @if ($message = Session::get('succes'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
     
     <div class="container-fluid mt--6">
         <!-- Table -->
@@ -30,66 +36,31 @@
                         </p> --}}
                         
                     </div>
-                    <div class="card-header">
-                        <a href="{{ route('admin.page.index','formReview') }}" role="button" class="btn btn-primary ms-6">Tambah Review</a>
-                    </div>
+                    {{-- <div class="card-header">
+                        <a href="{{ url('admin/review/create') }}" role="button" class="btn btn-primary ms-6">Tambah Review</a>
+                    </div> --}}
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
-                            <thead class="thead-light">
+                            <thead>
                                 <tr>
-                                    <th>action</th>
-                                    <th>id</th>
-                                    <th>id_book</th>
-                                    <th>id_user</th>
-                                    <th>review_content</th>
-                                    <th>rating</th>
-                                    <th>created_at</th>
-                                    <th>updated_at</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Review Content</th>
+                                  <th scope="col">Rating</th>
+                                  <th scope="col">Book</th>
+                                  <th scope="col">User</th>
                                 </tr>
-                            </thead>
-                            
-                            <tbody>
+                              </thead>
+                              <tbody>
+                                  @foreach ($review as $data)
                                 <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>
-                                    <td>5</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
+                                  <th scope="row">{{ ++$i }}</th>
+                                  <td>{{ $data->review_content}}</td>
+                                  <td>{{ $data->rating}}</td>
+                                  <td>{{ $data->book->title}}</td>
+                                  <td>{{ $data->user->name}}</td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>
-                                    <td>5</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry</td>
-                                    <td>5</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                </tr>
-                                
-                            </tbody>
+                                @endforeach
+                              </tbody>
                         </table>
                     </div>
                 </div>

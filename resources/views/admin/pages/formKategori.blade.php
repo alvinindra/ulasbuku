@@ -7,13 +7,23 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Form Author') }} 
+                {{ __('Category') }} 
             @endslot
 
             <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'formKategori') }}">{{ __('Kelola Kategori') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Form Kategori') }}</li>
         @endcomponent 
     @endcomponent
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> Input gagal.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="container mt--6">
         <div class="row">
@@ -27,26 +37,23 @@
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
-                            <form method="POST" action="">
+                            <form method="POST" action="{{ route('category.store') }}">
+                                @csrf
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Name Category</label>
+                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Category</label>
                                     <div class="col-md-10">
-                                        <input name="nameCategory" class="form-control" type="text" placeholder="" id="">
+                                        <input name="name_category" class="form-control" type="text" placeholder="" id="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Slug</label>
+                                    <div class="col-md-10">
+                                        <input name="slug" class="form-control" type="text" placeholder="" id="">
                                     </div>
                                 </div>
                                
-                                <div class="form-group row">
-                                    <label for="example-datetime-local-input" class="col-md-2 col-form-label form-control-label">Created At</label>
-                                    <div class="col-md-10">
-                                        <input name="createdAt" class="form-control" type="date" value="2018-11-23" id="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-datetime-local-input" class="col-md-2 col-form-label form-control-label">Updated At</label>
-                                    <div class="col-md-10">
-                                        <input name="updatedAt" class="form-control" type="date" value="2018-11-23" id="">
-                                    </div>
-                                </div>
+                                
                                 <button class="btn btn-primary" type="submit">Submit</button>
                             </form>
                         </div>
@@ -57,7 +64,7 @@
             </div>
         </div>
         <!-- Footer -->
-        @include('admin.layouts.footers.auth')
+        {{-- @include('admin.layouts.footers.auth') --}}
     </div>
 @endsection
 
