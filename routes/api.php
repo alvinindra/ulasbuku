@@ -23,13 +23,17 @@ Route::get('/category', 'App\Http\Controllers\Api\CategoryController@index');
 
 Route::post('/register', 'App\Http\Controllers\Api\AuthController@register');
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
+
+Route::post('/forgot-password', 'App\Http\Controllers\Api\NewPasswordController@forgotPassword');
+Route::post('/reset-password', 'App\Http\Controllers\Api\NewPasswordController@reset');
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/review', 'App\Http\Controllers\Api\ReviewController@store');
     Route::post('/review/{slug}', 'App\Http\Controllers\Api\ReviewController@edit');
 
     Route::get('/profile', 'App\Http\Controllers\Api\AuthController@profile');
+    Route::post('/profile/change-password', 'App\Http\Controllers\Api\AuthController@changePassword');
     Route::get('/user/reviews', 'App\Http\Controllers\Api\AuthController@listReviews');
-    
+
     Route::post('/logout', 'App\Http\Controllers\Api\AuthController@logout');
 });
