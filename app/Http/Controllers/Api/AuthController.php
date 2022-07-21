@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Validator;
 use App\Models\User;
+use File;
 
 class AuthController extends BaseController
 {
@@ -25,6 +26,13 @@ class AuthController extends BaseController
         $validator = Validator::make($input, [
             'name' => 'required',
         ]);
+        if ($request->hasFile('photo_profile')){
+            $file = $request->file('photo_profile');
+            $destinationPatch = public_path().'/assets/img/photo_profile/';
+            $filename = str_random(6).'_'.$file->getClientOriginalName();
+            $uploadSucces = $file->move($destinationPatch, $filename);
+            $user->photo_profile = $filename;
+        }
 
         if($validator->fails()){
             return response()
