@@ -94,8 +94,8 @@ class BooksController extends BaseController
         ->withAvg('reviews as total_rating', 'rating')
         ->withCount('reviews as total_reviews')
         ->with('author:id,name_author')
-        ->with('is_reviewed', function($q) use ($slug) {
-            $q->where('slug', $slug);
+        ->when($user, function($q) use ($slug) {
+            $q->with('is_reviewed');
         })->first();
 
         if (is_null($book)) {
