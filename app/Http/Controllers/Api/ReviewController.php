@@ -43,17 +43,24 @@ class ReviewController extends BaseController
 
         $validator = Validator::make($input, [
             'id_book' => 'required',
+            'slug'  => 'required',
             'review_content' => 'required',
             'rating' => 'required',
         ]);
    
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return response()
+            ->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);  
         }
 
         $review = Review::firstOrNew([
             'id_book' => $request->id_book,
-            'id_user' => auth()->user()->id,
+            'slug'    => $request->slug,
+            'id_user' => auth('sanctum')->user()->id,
         ]);
 
         $review->review_content = $request->review_content;
@@ -78,7 +85,10 @@ class ReviewController extends BaseController
     public function show($slug)
     {
         $auth = auth('sanctum')->user();
-        $review = Review::where('slug', $slug)->where('id_user', $auth->id)->first();
+        $review = Review::where('slug', $slug)
+        ->when($auth, function($q) use ($auth) {
+            $q->where('id_user', $auth->id);
+        })->first();
 
         if (is_null($review)) {
           return $this->sendResponse([], 'Data masih kosong');
