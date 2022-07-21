@@ -35,7 +35,7 @@
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                   <th scope="col">#</th>
                                   <th scope="col">Author</th>
@@ -45,7 +45,7 @@
                               <tbody>
                                   @foreach ($author as $data)
                                 <tr>
-                                  <th scope="row">{{ ++$i }}</th>
+                                  <th>{{ ++$i }}</th>
                                   <td>{{ $data->name_author}}</td>
                                   <td>
                                   <form action="{{ route('author.destroy',$data->id) }}" method="POST">

@@ -15,7 +15,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        $publisher = Publisher::paginate(10);
+        $publisher = Publisher::paginate(100);
         return view('admin.pages.tabelPublisher',compact('publisher'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 

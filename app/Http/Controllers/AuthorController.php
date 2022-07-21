@@ -15,7 +15,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $author = Author::paginate(10);
+        $author = Author::paginate(100);
         return view('admin.pages.tabelAuthor',compact('author'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 

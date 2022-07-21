@@ -38,7 +38,7 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Description</label>
                                     <div class="col-md-10">
-                                        <input name="description" class="form-control" type="text" placeholder="" id="">
+                                        <textarea rows="10" name="description" class="form-control" type="text" placeholder="" id=""> </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -116,7 +116,7 @@
             </div>
         </div>
         <!-- Footer -->
-        @include('admin.layouts.footers.auth')
+        {{-- @include('admin.layouts.footers.auth') --}}
     </div>
 @endsection
 

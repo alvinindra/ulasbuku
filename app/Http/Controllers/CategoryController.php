@@ -27,7 +27,7 @@ class CategoryController extends Controller
             return redirect()->to('/');
         }
 
-        $category = Category::paginate(10);
+        $category = Category::paginate(100);
         return view('admin.pages.tabelKategori',compact('category'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
