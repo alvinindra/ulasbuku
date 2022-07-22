@@ -9,7 +9,7 @@
 								<div class="d-flex justify-content-start">
 									<div class="image-container">
 										<img
-											src="http://placehold.co/150x150?text=Profile"
+											:src="formProfile.avatar ? formProfile.avatar : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'"
 											id="imgProfile"
 											style="width: 150px; height: 150px"
 											class="img-thumbnail"
@@ -23,12 +23,15 @@
 												class="btn btn-secondary"
 												id="btnChangePicture"
 												value="Ubah"
+												@click="$refs.profileImage.click()"
 											/>
 											<input
 												type="file"
 												style="display: none;"
+												ref="profileImage"
 												id="profilePicture"
 												name="file"
+												@change="onFileChange"
 											/>
 										</div>
 									</div>
@@ -39,14 +42,21 @@
 										>{{ user.name }}</h2>
 										<h6 class="d-block "><span class="h5 font-title">{{ user.total_reviews }}</span> Total Mengulas</h6>
 										<button
+											v-if="!isEdit"
 											class="btn btn-primary"
 											id="btnChangeProfile"
 											@click="isEdit = !isEdit"
-										>{{ isEdit ? 'Simpan Perubahan' : 'Ubah Profil'}}</button>
+										>Ubah Profil</button>
+										<button
+											v-if="isEdit"
+											class="btn btn-primary"
+											id="btnChangeProfile"
+											@click="handleSubmitEdit"
+										>Simpan Perubahan</button>
 										<button
 											v-if="isEdit"
 											class="btn btn-danger"
-											@click="isEdit = false"
+											@click="handleCancelEdit"
 										>Batalkan</button>
 									</div>
 								</div>
@@ -196,9 +206,11 @@ export default {
 			listReviews: [],
 			loaderDisable: false,
 			page: 1,
+			fileImage: "",
 			formProfile: {
 				name: "",
 				email: "",
+				avatar: "",
 			},
 		};
 	},
@@ -227,7 +239,7 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions("auth", ["getProfile", "getListReviews"]),
+		...mapActions("auth", ["getProfile", "getListReviews", "updateProfile"]),
 		async initComponent() {
 			try {
 				const payload = {
@@ -246,7 +258,47 @@ export default {
 			this.getProfile().then((res) => {
 				this.formProfile.name = res.data.data.name;
 				this.formProfile.email = res.data.data.email;
+				this.formProfile.avatar = res.data.data.photo_profile
+					? "/assets/img/photo_profile/" + res.data.data.photo_profile
+					: "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
 			});
+		},
+		onFileChange(e) {
+			let files = e.target.files || e.dataTransfer.files;
+			this.fileImage = files[0];
+			if (!files.length) return;
+			this.createImage(files[0]);
+		},
+		createImage(file) {
+			let reader = new FileReader();
+			let vm = this;
+			reader.onload = (e) => {
+				vm.formProfile.avatar = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		},
+		async handleSubmitEdit() {
+			try {
+				const payload = {
+					name: this.formProfile.name,
+					photo_profile: this.formProfile.avatar,
+				};
+				let formData = new FormData();
+				formData.append("name", this.formProfile.name);
+				formData.append("photo_profile", this.fileImage);
+				await this.updateProfile(formData);
+				await this.getProfile();
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.isEdit = false;
+			}
+		},
+		handleCancelEdit() {
+			this.isEdit = false;
+			this.formProfile.avatar = this.user.photo_profile
+				? "/assets/img/photo_profile/" + this.user.photo_profile
+				: "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
 		},
 	},
 	mounted() {
@@ -255,6 +307,32 @@ export default {
 	},
 };
 </script>
+
+<style>
+.avatar-uploader .el-upload {
+	border: 1px dashed #d9d9d9;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+	border-color: #409eff;
+}
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 178px;
+	height: 178px;
+	line-height: 178px;
+	text-align: center;
+}
+.avatar {
+	width: 178px;
+	height: 178px;
+	display: block;
+}
+</style>
 
 <style lang="scss" scoped>
 .image-container {

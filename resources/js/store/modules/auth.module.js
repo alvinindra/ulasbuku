@@ -25,6 +25,18 @@ const mutations = {
 }
 
 const actions = {
+    updateProfile ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/profile', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     getProfile ({ commit }) {
         return new Promise((resolve, reject) => {
             apiClient
@@ -75,7 +87,7 @@ const actions = {
         })
     },
     logout ({ commit }) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             apiClient
                 .post('/logout')
                 .then(response => {
@@ -83,6 +95,7 @@ const actions = {
                     resolve(response)
                 })
                 .catch(error => {
+                    commit('SET_LOGOUT')
                     reject(error)
                 })
         })
