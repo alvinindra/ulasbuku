@@ -64,19 +64,19 @@ export default {
 		async handleForgotPassword() {
 			try {
 				const payload = {
-					email: this.formLogin.email,
+					email: this.email,
 				};
-				await this.postForgotPassword(payload);
+				const res = await this.postForgotPassword(payload);
 				this.$message({
 					showClose: true,
-					message: "Cek email untuk mengatur ulang password.",
+					message: res.data.status,
 					type: "success",
 				});
 			} catch (error) {
 				console.error(error);
 				this.$message({
 					showClose: true,
-					message: "Terjadi kesalahan",
+					message: error.response.data.errors.email[0],
 					type: "error",
 				});
 			}

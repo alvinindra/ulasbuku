@@ -21,11 +21,11 @@
 								<div class="form-group">
 									<label
 										class="form-control-placeholder"
-										for="password"
-									>Password Lama</label>
+										for="email"
+									>Email</label>
 									<el-input
-										v-model="formReset.oldPassword"
-										show-password
+										type="email"
+										v-model="formReset.email"
 									></el-input>
 								</div>
 								<div class="form-group">
@@ -44,7 +44,7 @@
 										for="password"
 									>Konfirmasi Password</label>
 									<el-input
-										v-model="formReset.passwordConfirm"
+										v-model="formReset.password_confirmation"
 										show-password
 									></el-input>
 								</div>
@@ -78,30 +78,31 @@ export default {
 	data() {
 		return {
 			formReset: {
-				oldPassword: "",
+				token: this.$route.query.token,
+				email: "",
 				password: "",
-				passwordConfirm: "",
+				password_confirmation: "",
 			},
 		};
 	},
 	methods: {
-		...mapActions("auth", ["postForgotPassword", "getProfile"]),
+		...mapActions("auth", ["resetPassword", "getProfile"]),
 		async handleResetPassword() {
 			try {
 				const payload = {
-					email: this.formLogin.email,
+					...this.formReset,
 				};
-				await this.postForgotPassword(payload);
+				const res = await this.resetPassword(payload);
 				this.$message({
 					showClose: true,
-					message: "Cek email untuk mengatur ulang password.",
+					message: res.data.message,
 					type: "success",
 				});
 			} catch (error) {
 				console.error(error);
 				this.$message({
 					showClose: true,
-					message: "Terjadi kesalahan",
+					message: error.response.data.message,
 					type: "error",
 				});
 			}

@@ -86,6 +86,30 @@ const actions = {
                 })
         })
     },
+    postForgotPassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/forgot-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
+    resetPassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/reset-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     logout ({ commit }) {
         return new Promise((resolve, reject) => {
             apiClient
