@@ -139,51 +139,65 @@
 													{{ formatDateInd }}
 												</div>
 											</div>
+											<div class="row">
+												<div class="col-sm-3 col-md-2"></div>
+												<div class="col-md-8 col-6 my-auto">
+													<button
+														class="btn btn-primary"
+														data-toggle="modal"
+														data-target="#modalChangePassword"
+													>Ganti Password</button>
+												</div>
+											</div>
 										</div>
 										<div
 											class="tab-pane fade"
 											id="reviews"
 											role="tabpanel"
 											aria-labelledby="reviews-tab"
-											v-if="listReviews.length > 0"
 										>
-											<div
-												v-for="review in listReviews"
-												:key="review.id"
-												class="col-lg-12 mb-4"
-											>
-												<div class="row">
-													<div class="col-12 col-lg-12">
-														<div class="card">
-															<div class="card-header d-flex">
-																<div class="mr-3">Memberikan rating</div>
-																<star-rating
-																	class="mb-auto"
-																	:rating="review.rating"
-																	:star-size="16"
-																	:read-only="true"
-																	:padding="4"
-																	active-color="#B4D51E"
-																	:increment="0.01"
-																	:show-rating="false"
-																></star-rating>
-															</div>
-															<div class="card-body">
-																{{ review.review_content }} <span class="color-grey font-italic">- {{ review.book.title }}</span>
-															</div>
-															<div class="card-footer">
-																<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
+											<template v-if="listReviews.length > 0">
+												<div
+													v-for="review in listReviews"
+													:key="review.id"
+													class="col-lg-12 mb-4"
+												>
+													<div class="row">
+														<div class="col-12 col-lg-12">
+															<div class="card">
+																<div class="card-header d-flex">
+																	<div class="mr-3">Memberikan rating</div>
+																	<star-rating
+																		class="mb-auto"
+																		:rating="review.rating"
+																		:star-size="16"
+																		:read-only="true"
+																		:padding="4"
+																		active-color="#B4D51E"
+																		:increment="0.01"
+																		:show-rating="false"
+																	></star-rating>
+																</div>
+																<div class="card-body">
+																	{{ review.review_content }} <span class="color-grey font-italic">- {{ review.book.title }}</span>
+																</div>
+																<div class="card-footer">
+																	<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-											<scroll-loader
-												class="col-12 mx-auto"
-												:loader-method="initComponent"
-												:loader-disable="loaderDisable"
-											>
-											</scroll-loader>
+												<scroll-loader
+													class="col-12 mx-auto"
+													:loader-method="initComponent"
+													:loader-disable="loaderDisable"
+												>
+												</scroll-loader>
+											</template>
+											<template v-else>
+												Anda belum mengulas buku sama sekali.
+											</template>
 										</div>
 									</div>
 								</div>
@@ -193,13 +207,18 @@
 				</div>
 			</div>
 		</div>
+		<ModalChangePassword />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import ModalChangePassword from "../components/auth/ModalChangePassword.vue";
 
 export default {
+	components: {
+		ModalChangePassword,
+	},
 	data() {
 		return {
 			isEdit: false,
@@ -279,10 +298,6 @@ export default {
 		},
 		async handleSubmitEdit() {
 			try {
-				const payload = {
-					name: this.formProfile.name,
-					photo_profile: this.formProfile.avatar,
-				};
 				let formData = new FormData();
 				formData.append("name", this.formProfile.name);
 				formData.append("photo_profile", this.fileImage);

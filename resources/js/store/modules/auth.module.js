@@ -110,6 +110,18 @@ const actions = {
                 })
         })
     },
+    changePassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/profile/change-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     logout ({ commit }) {
         return new Promise((resolve, reject) => {
             apiClient
