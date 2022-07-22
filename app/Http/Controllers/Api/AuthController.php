@@ -26,6 +26,7 @@ class AuthController extends BaseController
         $validator = Validator::make($input, [
             'name' => 'required',
         ]);
+        
         if ($request->hasFile('photo_profile')){
             $file = $request->file('photo_profile');
             $destinationPatch = public_path().'/assets/img/photo_profile/';
@@ -64,7 +65,7 @@ class AuthController extends BaseController
         if ($validator->fails()) {
             return response()->json([
                 'message'=>'Validations fails',
-                'errors'=>$validator->errors()
+                'errors'=>$validator->errors()->first()
             ],422);
         }
 
@@ -131,7 +132,7 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        auth('sanctum')->user()->tokens()->delete();
 
         return [
             'message' => 'You have successfully logged out and the token was successfully deleted'

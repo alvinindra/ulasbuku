@@ -28,7 +28,7 @@ class NewPasswordController extends Controller
             ];
         }
 
-        throw ValidationException::withMessages([
+        throw \Illuminate\Validation\ValidationException::withMessages([
             'email' => [trans($status)],
         ]);
     }

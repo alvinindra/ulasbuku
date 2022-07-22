@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/review/{slug}', 'App\Http\Controllers\Api\ReviewController@edit');
 
     Route::get('/profile', 'App\Http\Controllers\Api\AuthController@profile');
+    Route::post('/profile', 'App\Http\Controllers\Api\AuthController@edit');
     Route::post('/profile/change-password', 'App\Http\Controllers\Api\AuthController@changePassword');
     Route::get('/user/reviews', 'App\Http\Controllers\Api\AuthController@listReviews');
 

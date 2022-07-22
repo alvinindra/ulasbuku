@@ -138,11 +138,18 @@ export default {
 			"postEditReview",
 		]),
 		async initComponent() {
-			const res = await this.getBook(this.$route.params.slug);
-			this.book = res.data.data;
-			const resReview = await this.getDetailReview(this.$route.params.slug);
-			this.formReview.rating = resReview.data.data.rating;
-			this.formReview.review_content = resReview.data.data.review_content;
+			try {
+				const res = await this.getBook(this.$route.params.slug);
+				this.book = res.data.data;
+				const resReview = await this.getDetailReview(this.$route.params.slug);
+				this.formReview.rating = resReview.data.data.rating;
+				this.formReview.review_content = resReview.data.data.review_content;
+			} catch (error) {
+				console.error(error);
+				if (error.response.status === 404) {
+					this.$router.push("/404");
+				}
+			}
 		},
 		async postReview() {
 			if (this.loggedIn) {

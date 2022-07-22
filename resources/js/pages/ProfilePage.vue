@@ -9,7 +9,7 @@
 								<div class="d-flex justify-content-start">
 									<div class="image-container">
 										<img
-											src="http://placehold.co/150x150?text=Profile"
+											:src="formProfile.avatar ? formProfile.avatar : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'"
 											id="imgProfile"
 											style="width: 150px; height: 150px"
 											class="img-thumbnail"
@@ -23,12 +23,15 @@
 												class="btn btn-secondary"
 												id="btnChangePicture"
 												value="Ubah"
+												@click="$refs.profileImage.click()"
 											/>
 											<input
 												type="file"
 												style="display: none;"
+												ref="profileImage"
 												id="profilePicture"
 												name="file"
+												@change="onFileChange"
 											/>
 										</div>
 									</div>
@@ -39,14 +42,21 @@
 										>{{ user.name }}</h2>
 										<h6 class="d-block "><span class="h5 font-title">{{ user.total_reviews }}</span> Total Mengulas</h6>
 										<button
+											v-if="!isEdit"
 											class="btn btn-primary"
 											id="btnChangeProfile"
 											@click="isEdit = !isEdit"
-										>{{ isEdit ? 'Simpan Perubahan' : 'Ubah Profil'}}</button>
+										>Ubah Profil</button>
+										<button
+											v-if="isEdit"
+											class="btn btn-primary"
+											id="btnChangeProfile"
+											@click="handleSubmitEdit"
+										>Simpan Perubahan</button>
 										<button
 											v-if="isEdit"
 											class="btn btn-danger"
-											@click="isEdit = false"
+											@click="handleCancelEdit"
 										>Batalkan</button>
 									</div>
 								</div>
@@ -129,51 +139,65 @@
 													{{ formatDateInd }}
 												</div>
 											</div>
+											<div class="row">
+												<div class="col-sm-3 col-md-2"></div>
+												<div class="col-md-8 col-6 my-auto">
+													<button
+														class="btn btn-primary"
+														data-toggle="modal"
+														data-target="#modalChangePassword"
+													>Ganti Password</button>
+												</div>
+											</div>
 										</div>
 										<div
 											class="tab-pane fade"
 											id="reviews"
 											role="tabpanel"
 											aria-labelledby="reviews-tab"
-											v-if="listReviews.length > 0"
 										>
-											<div
-												v-for="review in listReviews"
-												:key="review.id"
-												class="col-lg-12 mb-4"
-											>
-												<div class="row">
-													<div class="col-12 col-lg-12">
-														<div class="card">
-															<div class="card-header d-flex">
-																<div class="mr-3">Memberikan rating</div>
-																<star-rating
-																	class="mb-auto"
-																	:rating="review.rating"
-																	:star-size="16"
-																	:read-only="true"
-																	:padding="4"
-																	active-color="#B4D51E"
-																	:increment="0.01"
-																	:show-rating="false"
-																></star-rating>
-															</div>
-															<div class="card-body">
-																{{ review.review_content }} <span class="color-grey font-italic">- {{ review.book.title }}</span>
-															</div>
-															<div class="card-footer">
-																<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
+											<template v-if="listReviews.length > 0">
+												<div
+													v-for="review in listReviews"
+													:key="review.id"
+													class="col-lg-12 mb-4"
+												>
+													<div class="row">
+														<div class="col-12 col-lg-12">
+															<div class="card">
+																<div class="card-header d-flex">
+																	<div class="mr-3">Memberikan rating</div>
+																	<star-rating
+																		class="mb-auto"
+																		:rating="review.rating"
+																		:star-size="16"
+																		:read-only="true"
+																		:padding="4"
+																		active-color="#B4D51E"
+																		:increment="0.01"
+																		:show-rating="false"
+																	></star-rating>
+																</div>
+																<div class="card-body">
+																	{{ review.review_content }} <span class="color-grey font-italic">- {{ review.book.title }}</span>
+																</div>
+																<div class="card-footer">
+																	<span class="text-muted">Memberi ulasan {{ review.created_at }}</span>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-											<scroll-loader
-												class="col-12 mx-auto"
-												:loader-method="initComponent"
-												:loader-disable="loaderDisable"
-											>
-											</scroll-loader>
+												<scroll-loader
+													class="col-12 mx-auto"
+													:loader-method="initComponent"
+													:loader-disable="loaderDisable"
+												>
+												</scroll-loader>
+											</template>
+											<template v-else>
+												Anda belum mengulas buku sama sekali.
+											</template>
 										</div>
 									</div>
 								</div>
@@ -183,22 +207,29 @@
 				</div>
 			</div>
 		</div>
+		<ModalChangePassword />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import ModalChangePassword from "../components/auth/ModalChangePassword.vue";
 
 export default {
+	components: {
+		ModalChangePassword,
+	},
 	data() {
 		return {
 			isEdit: false,
 			listReviews: [],
 			loaderDisable: false,
 			page: 1,
+			fileImage: "",
 			formProfile: {
 				name: "",
 				email: "",
+				avatar: "",
 			},
 		};
 	},
@@ -227,7 +258,7 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions("auth", ["getProfile", "getListReviews"]),
+		...mapActions("auth", ["getProfile", "getListReviews", "updateProfile"]),
 		async initComponent() {
 			try {
 				const payload = {
@@ -246,7 +277,43 @@ export default {
 			this.getProfile().then((res) => {
 				this.formProfile.name = res.data.data.name;
 				this.formProfile.email = res.data.data.email;
+				this.formProfile.avatar = res.data.data.photo_profile
+					? "/assets/img/photo_profile/" + res.data.data.photo_profile
+					: "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
 			});
+		},
+		onFileChange(e) {
+			let files = e.target.files || e.dataTransfer.files;
+			this.fileImage = files[0];
+			if (!files.length) return;
+			this.createImage(files[0]);
+		},
+		createImage(file) {
+			let reader = new FileReader();
+			let vm = this;
+			reader.onload = (e) => {
+				vm.formProfile.avatar = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		},
+		async handleSubmitEdit() {
+			try {
+				let formData = new FormData();
+				formData.append("name", this.formProfile.name);
+				formData.append("photo_profile", this.fileImage);
+				await this.updateProfile(formData);
+				await this.getProfile();
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.isEdit = false;
+			}
+		},
+		handleCancelEdit() {
+			this.isEdit = false;
+			this.formProfile.avatar = this.user.photo_profile
+				? "/assets/img/photo_profile/" + this.user.photo_profile
+				: "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
 		},
 	},
 	mounted() {
@@ -255,6 +322,32 @@ export default {
 	},
 };
 </script>
+
+<style>
+.avatar-uploader .el-upload {
+	border: 1px dashed #d9d9d9;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+	border-color: #409eff;
+}
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 178px;
+	height: 178px;
+	line-height: 178px;
+	text-align: center;
+}
+.avatar {
+	width: 178px;
+	height: 178px;
+	display: block;
+}
+</style>
 
 <style lang="scss" scoped>
 .image-container {
