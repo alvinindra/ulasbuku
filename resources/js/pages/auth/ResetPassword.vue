@@ -11,60 +11,59 @@
 						<div class="login-wrap p-4 p-md-5">
 							<div class="d-flex">
 								<div class="w-100">
-									<h3 class="mb-4 font-title">Masuk</h3>
+									<h4 class="mb-4 font-title">Atur Ulang Password</h4>
 								</div>
 							</div>
 							<form
 								class="signin-form"
-								@submit.prevent="login"
+								@submit.prevent="handleResetPassword"
 							>
-								<div class="form-group mt-3">
+								<div class="form-group">
 									<label
 										class="form-control-placeholder"
-										for="email"
-									>Email</label>
-									<input
-										type="text"
-										v-model="formLogin.email"
-										class="form-control"
-										required
-									>
+										for="password"
+									>Password Lama</label>
+									<el-input
+										v-model="formReset.oldPassword"
+										show-password
+									></el-input>
 								</div>
 								<div class="form-group">
 									<label
 										class="form-control-placeholder"
 										for="password"
-									>Password</label>
-									<input
-										id="password-field"
-										v-model="formLogin.password"
-										type="password"
-										class="form-control"
-										required
-									>
-
-									<span
-										toggle="#password-field"
-										class="fa fa-fw fa-eye field-icon toggle-password"
-									></span>
+									>Password Baru</label>
+									<el-input
+										v-model="formReset.password"
+										show-password
+									></el-input>
+								</div>
+								<div class="form-group">
+									<label
+										class="form-control-placeholder"
+										for="password"
+									>Konfirmasi Password</label>
+									<el-input
+										v-model="formReset.passwordConfirm"
+										show-password
+									></el-input>
 								</div>
 								<div class="form-group">
 									<button
 										type="submit"
 										class="form-control btn btn-primary rounded submit px-3"
-									>Masuk</button>
+									>Reset Password</button>
 								</div>
 							</form>
-							<p class="text-center">Belum punya akun?
+							<p class="text-center">
+								<router-link to="/login">
+									Masuk
+								</router-link>
+								atau
 								<router-link to="/register">
 									Daftar Akun
 								</router-link>
 							</p>
-							<div class="text-center">
-								<router-link to="/forget-password">
-									Lupa Password
-								</router-link>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -78,29 +77,26 @@ import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			formLogin: {
-				email: "",
+			formReset: {
+				oldPassword: "",
 				password: "",
+				passwordConfirm: "",
 			},
 		};
 	},
 	methods: {
-		...mapActions("auth", ["postLogin", "getProfile"]),
-		async login() {
+		...mapActions("auth", ["postForgotPassword", "getProfile"]),
+		async handleResetPassword() {
 			try {
 				const payload = {
 					email: this.formLogin.email,
-					password: this.formLogin.password,
 				};
-				const res = await this.postLogin(payload);
-				this.getProfile();
-				localStorage.setItem("token", res.data.access_token);
+				await this.postForgotPassword(payload);
 				this.$message({
 					showClose: true,
-					message: "Anda telah berhasil masuk",
+					message: "Cek email untuk mengatur ulang password.",
 					type: "success",
 				});
-				this.$router.push("/");
 			} catch (error) {
 				console.error(error);
 				this.$message({

@@ -92,6 +92,24 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/forget-password',
+            name: 'ForgotPasswordPage',
+            component: () => import('@pages/auth/ForgotPassword.vue'),
+            meta: {
+                title: 'Lupa Password - UlasBuku',
+                layout: 'BasicLayout'
+            }
+        },
+        {
+            path: '/reset-password',
+            name: 'ResetPasswordPage',
+            component: () => import('@pages/auth/ResetPassword.vue'),
+            meta: {
+                title: 'Reset Password - UlasBuku',
+                layout: 'BasicLayout'
+            }
+        },
+        {
             path: '*',
             name: 'NotFoundPage',
             component: () => import('@pages/404.vue'),
