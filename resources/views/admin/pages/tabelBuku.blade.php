@@ -29,11 +29,6 @@
                 <div class="card-header">
 
                     <h3 class="mb-0">Tabel Buku</h3>
-                    {{-- <p class="text-sm mb-0">
-                        This is an exmaple of datatable using the well known datatables.net plugin. This is a minimal
-                        setup in order to get started
-                        fast.
-                    </p> --}}
 
                 </div>
                 <div class="card-header customColor">
@@ -57,7 +52,8 @@
                             @foreach ($book as $data)
                             <tr>
                                 <th scope="row">{{ ++$i }}</th>
-                                <td></td>
+                                <td><img src="{{ asset('assets/img/cover/' .$data->cover)}}" width="150px;"
+                                        style="margin-right: 5px;"></td>
                                 <td>{{ $data->title}}</td>
                                 <td
                                     style="word-wrap: break-word;min-width: 300px;max-width: 300px; white-space: normal !important; ">
