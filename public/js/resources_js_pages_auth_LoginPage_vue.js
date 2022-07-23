@@ -101,13 +101,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -161,7 +154,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.$message({
                   showClose: true,
-                  message: "Terjadi kesalahan",
+                  message: _context.t0.response.data.message,
                   type: "error"
                 });
 
@@ -897,6 +890,17 @@ var render = function () {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-center" },
+                [
+                  _c("router-link", { attrs: { to: "/forget-password" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\t\tLupa Password\n\t\t\t\t\t\t\t"),
+                  ]),
+                ],
+                1
+              ),
             ]),
           ]),
         ]),
@@ -912,30 +916,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "d-flex" }, [
       _c("div", { staticClass: "w-100" }, [
         _c("h3", { staticClass: "mb-4 font-title" }, [_vm._v("Masuk")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-100" }, [
-        _c("p", { staticClass: "social-media d-flex justify-content-end" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "social-icon d-flex align-items-center justify-content-center",
-              attrs: { href: "#" },
-            },
-            [_c("span", { staticClass: "fa fa-facebook" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "social-icon d-flex align-items-center justify-content-center",
-              attrs: { href: "#" },
-            },
-            [_c("span", { staticClass: "fa fa-twitter" })]
-          ),
-        ]),
       ]),
     ])
   },

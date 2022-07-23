@@ -21,8 +21,9 @@ class BookController extends Controller
      */
     public function index()
     {
+
         $book = Book::with('category','author','publisher')->get();
-        return view('admin.pages.tabelBuku',compact('book'))->with('i', (request()->input('page', 1) -1) * 5);
+        return view('admin.pages.tabelBuku',compact('book'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**

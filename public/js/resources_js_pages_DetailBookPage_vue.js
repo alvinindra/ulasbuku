@@ -135,6 +135,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -163,26 +171,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _context.prev = 0;
+                _context.next = 3;
                 return _this.getBook(_this.$route.params.slug);
 
-              case 2:
+              case 3:
                 res = _context.sent;
                 _this.book = res.data.data;
-                _context.next = 6;
+                _context.next = 7;
                 return _this.getDetailReview(_this.$route.params.slug);
 
-              case 6:
+              case 7:
                 resReview = _context.sent;
                 _this.formReview.rating = resReview.data.data.rating;
                 _this.formReview.review_content = resReview.data.data.review_content;
+                _context.next = 16;
+                break;
 
-              case 9:
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0);
+
+                if (_context.t0.response.status === 404) {
+                  _this.$router.push("/404");
+                }
+
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 12]]);
       }))();
     },
     postReview: function postReview() {
@@ -196,12 +216,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!_this2.loggedIn) {
-                  _context2.next = 28;
+                  _context2.next = 26;
                   break;
                 }
 
                 if (!(_this2.book.is_reviewed !== null)) {
-                  _context2.next = 15;
+                  _context2.next = 14;
                   break;
                 }
 
@@ -209,6 +229,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 payload = {
                   slug: _this2.$route.params.slug,
                   data: {
+                    id_book: _this2.book.id,
+                    slug: _this2.$route.params.slug,
                     rating: _this2.formReview.rating,
                     review_content: _this2.formReview.review_content
                   }
@@ -222,65 +244,64 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   type: "success"
                 });
 
-                _context2.next = 13;
+                _context2.next = 12;
                 break;
 
               case 9:
                 _context2.prev = 9;
                 _context2.t0 = _context2["catch"](2);
-                console.log(_context2.t0);
 
                 _this2.$message({
-                  message: "Error sayang",
+                  message: _context2.t0.response.data.message,
                   type: "error"
                 });
 
-              case 13:
-                _context2.next = 26;
+              case 12:
+                _context2.next = 24;
                 break;
 
-              case 15:
-                _context2.prev = 15;
+              case 14:
+                _context2.prev = 14;
                 _payload = {
-                  id: _this2.book.id,
+                  id_book: _this2.book.id,
+                  slug: _this2.$route.params.slug,
                   rating: _this2.formReview.rating,
                   review_content: _this2.formReview.review_content
                 };
-                _context2.next = 19;
+                _context2.next = 18;
                 return _this2.postSaveReview(_payload);
 
-              case 19:
+              case 18:
                 _this2.$message({
                   message: "Ulasan berhasil disimpan",
                   type: "success"
                 });
 
-                _context2.next = 26;
+                _context2.next = 24;
                 break;
 
-              case 22:
-                _context2.prev = 22;
-                _context2.t1 = _context2["catch"](15);
-                console.log(_context2.t1);
+              case 21:
+                _context2.prev = 21;
+                _context2.t1 = _context2["catch"](14);
 
                 _this2.$message({
-                  message: "Error sayang",
+                  message: _context2.t1.response.data.message,
                   type: "error"
                 });
 
-              case 26:
-                _context2.next = 29;
+              case 24:
+                _context2.next = 27;
                 break;
 
-              case 28:
+              case 26:
                 _this2.$router.push("/login");
 
-              case 29:
+              case 27:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[2, 9], [15, 22]]);
+        }, _callee2, null, [[2, 9], [14, 21]]);
       }))();
     }
   }),
@@ -1132,6 +1153,26 @@ var render = function () {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-12" }, [
+                _c("div", { staticClass: "d-flex mb-3" }, [
+                  _c(
+                    "h6",
+                    {
+                      staticClass: "font-primary mb-0 my-auto font-weight-bold",
+                    },
+                    [_vm._v("Penerbit:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "font-primary ml-2 my-auto" }, [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t\t" +
+                        _vm._s(_vm.book.publisher.name_publisher) +
+                        "\n\t\t\t\t\t\t"
+                    ),
+                  ]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
                 _c("h6", { staticClass: "font-primary font-weight-bold" }, [
                   _vm._v("Deskripsi Buku:"),
                 ]),
@@ -1159,7 +1200,7 @@ var render = function () {
                   [
                     _vm._v(
                       _vm._s(
-                        _vm.book.is_reviewed !== null
+                        _vm.book.is_reviewed
                           ? "Perbarui Ulas Buku"
                           : "Ulas Buku"
                       )
