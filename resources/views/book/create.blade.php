@@ -2,20 +2,18 @@
 
 @section('content')
 
-@if ($errors->any())
-<div class="alert alert-danger">
-    <strong>Whoops!</strong> Input gagal.<br><br>
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
 <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
-
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> Input gagal.<br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">

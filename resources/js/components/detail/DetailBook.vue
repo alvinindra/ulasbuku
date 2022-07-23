@@ -21,6 +21,14 @@
 						<h5 class="font-primary color-grey">{{ book.author.name_author }}</h5>
 					</div>
 					<div class="col-12">
+						<div class="d-flex mb-3">
+							<h6 class="font-primary mb-0 my-auto font-weight-bold">Penerbit:</h6>
+							<div class="font-primary ml-2 my-auto">
+								{{ book.publisher.name_publisher }}
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
 						<h6 class="font-primary font-weight-bold">Deskripsi Buku:</h6>
 						<p class="font-primary text-justify">
 							{{ book.description }}
