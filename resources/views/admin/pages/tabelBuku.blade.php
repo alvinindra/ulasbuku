@@ -37,10 +37,10 @@
 
                 </div>
                 <div class="card-header customColor">
-                    <a href="{{ url('admin/book/create') }}" role="button" class="btn btn-primary ms-6">Tambah Buku</a>
+                    <a href="{{ url('admin/book/create') }}" role="button" class="btn btn-primary ms-6">Tambah Bukus</a>
                 </div>
                 <div class="table-responsive py-4">
-                    <table class="table" id="">
+                    <table class="table table-flush" id="datatable-basic">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -57,8 +57,7 @@
                             @foreach ($book as $data)
                             <tr>
                                 <th scope="row">{{ ++$i }}</th>
-                                <td><img src="{{ asset('assets/img/cover/' .$data->cover)}}" width="150px;"
-                                        style="margin-right: 5px;"></td>
+                                <td></td>
                                 <td>{{ $data->title}}</td>
                                 <td
                                     style="word-wrap: break-word;min-width: 300px;max-width: 300px; white-space: normal !important; ">

@@ -3966,6 +3966,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       layout: 'BasicLayout'
     }
   }, {
+    path: '/forget-password',
+    name: 'ForgotPasswordPage',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_pages_auth_ForgotPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! @pages/auth/ForgotPassword.vue */ "./resources/js/pages/auth/ForgotPassword.vue"));
+    },
+    meta: {
+      title: 'Lupa Password - UlasBuku',
+      layout: 'BasicLayout'
+    }
+  }, {
+    path: '/reset-password',
+    name: 'ResetPasswordPage',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_pages_auth_ResetPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! @pages/auth/ResetPassword.vue */ "./resources/js/pages/auth/ResetPassword.vue"));
+    },
+    meta: {
+      title: 'Reset Password - UlasBuku',
+      layout: 'BasicLayout'
+    }
+  }, {
     path: '*',
     name: 'NotFoundPage',
     component: function component() {
@@ -4035,8 +4055,18 @@ var mutations = {
   }
 };
 var actions = {
-  getProfile: function getProfile(_ref) {
+  updateProfile: function updateProfile(_ref, payload) {
     var commit = _ref.commit;
+    return new Promise(function (resolve, reject) {
+      _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.post('/profile', payload).then(function (response) {
+        resolve(response);
+      })["catch"](function (error) {
+        reject(error);
+      });
+    });
+  },
+  getProfile: function getProfile(_ref2) {
+    var commit = _ref2.commit;
     return new Promise(function (resolve, reject) {
       _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.get('/profile').then(function (response) {
         commit('SET_USER', response.data.data);
@@ -4046,8 +4076,8 @@ var actions = {
       });
     });
   },
-  getListReviews: function getListReviews(_ref2) {
-    var commit = _ref2.commit;
+  getListReviews: function getListReviews(_ref3) {
+    var commit = _ref3.commit;
     return new Promise(function (resolve, reject) {
       _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.get('/user/reviews').then(function (response) {
         resolve(response);
@@ -4074,13 +4104,44 @@ var actions = {
       });
     });
   },
-  logout: function logout(_ref3) {
-    var commit = _ref3.commit;
-    return new Promise(function (resolve) {
+  postForgotPassword: function postForgotPassword(_ref4, payload) {
+    var commit = _ref4.commit;
+    return new Promise(function (resolve, reject) {
+      _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.post('/forgot-password', payload).then(function (response) {
+        resolve(response);
+      })["catch"](function (error) {
+        reject(error);
+      });
+    });
+  },
+  resetPassword: function resetPassword(_ref5, payload) {
+    var commit = _ref5.commit;
+    return new Promise(function (resolve, reject) {
+      _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.post('/reset-password', payload).then(function (response) {
+        resolve(response);
+      })["catch"](function (error) {
+        reject(error);
+      });
+    });
+  },
+  changePassword: function changePassword(_ref6, payload) {
+    var commit = _ref6.commit;
+    return new Promise(function (resolve, reject) {
+      _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.post('/profile/change-password', payload).then(function (response) {
+        resolve(response);
+      })["catch"](function (error) {
+        reject(error);
+      });
+    });
+  },
+  logout: function logout(_ref7) {
+    var commit = _ref7.commit;
+    return new Promise(function (resolve, reject) {
       _src_utils_api_client_js__WEBPACK_IMPORTED_MODULE_0__.apiClient.post('/logout').then(function (response) {
         commit('SET_LOGOUT');
         resolve(response);
       })["catch"](function (error) {
+        commit('SET_LOGOUT');
         reject(error);
       });
     });
@@ -122062,7 +122123,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\xampp\\\\htdocs\\\
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_layouts_BasicLayout_vue":1,"resources_js_layouts_DefaultLayout_vue":1,"resources_js_pages_HomePage_vue":1,"resources_js_pages_DetailBookPage_vue":1,"resources_js_pages_ListBookPage_vue":1,"resources_js_pages_AboutPage_vue":1,"resources_js_pages_CategoryPage_vue":1,"resources_js_pages_ProfilePage_vue":1,"resources_js_pages_auth_LoginPage_vue":1,"resources_js_pages_auth_RegisterPage_vue":1,"resources_js_pages_404_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_layouts_BasicLayout_vue":1,"resources_js_layouts_DefaultLayout_vue":1,"resources_js_pages_HomePage_vue":1,"resources_js_pages_DetailBookPage_vue":1,"resources_js_pages_ListBookPage_vue":1,"resources_js_pages_AboutPage_vue":1,"resources_js_pages_CategoryPage_vue":1,"resources_js_pages_ProfilePage_vue":1,"resources_js_pages_auth_LoginPage_vue":1,"resources_js_pages_auth_RegisterPage_vue":1,"resources_js_pages_auth_ForgotPassword_vue":1,"resources_js_pages_auth_ResetPassword_vue":1,"resources_js_pages_404_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
