@@ -32,7 +32,7 @@
 							data-toggle="modal"
 							data-target="#exampleModalCenter"
 							class="btn btn-primary"
-						>{{ book.is_reviewed !== null ? 'Perbarui Ulas Buku' : 'Ulas Buku'}}</button>
+						>{{ book.is_reviewed ? 'Perbarui Ulas Buku' : 'Ulas Buku'}}</button>
 					</div>
 				</div>
 			</div>
@@ -138,11 +138,18 @@ export default {
 			"postEditReview",
 		]),
 		async initComponent() {
-			const res = await this.getBook(this.$route.params.slug);
-			this.book = res.data.data;
-			const resReview = await this.getDetailReview(this.$route.params.slug);
-			this.formReview.rating = resReview.data.data.rating;
-			this.formReview.review_content = resReview.data.data.review_content;
+			try {
+				const res = await this.getBook(this.$route.params.slug);
+				this.book = res.data.data;
+				const resReview = await this.getDetailReview(this.$route.params.slug);
+				this.formReview.rating = resReview.data.data.rating;
+				this.formReview.review_content = resReview.data.data.review_content;
+			} catch (error) {
+				console.error(error);
+				if (error.response.status === 404) {
+					this.$router.push("/404");
+				}
+			}
 		},
 		async postReview() {
 			if (this.loggedIn) {
@@ -151,6 +158,8 @@ export default {
 						const payload = {
 							slug: this.$route.params.slug,
 							data: {
+								id_book: this.book.id,
+								slug: this.$route.params.slug,
 								rating: this.formReview.rating,
 								review_content: this.formReview.review_content,
 							},
@@ -162,16 +171,16 @@ export default {
 							type: "success",
 						});
 					} catch (error) {
-						console.log(error);
 						this.$message({
-							message: "Error sayang",
+							message: error.response.data.message,
 							type: "error",
 						});
 					}
 				} else {
 					try {
 						const payload = {
-							id: this.book.id,
+							id_book: this.book.id,
+							slug: this.$route.params.slug,
 							rating: this.formReview.rating,
 							review_content: this.formReview.review_content,
 						};
@@ -182,9 +191,8 @@ export default {
 							type: "success",
 						});
 					} catch (error) {
-						console.log(error);
 						this.$message({
-							message: "Error sayang",
+							message: error.response.data.message,
 							type: "error",
 						});
 					}

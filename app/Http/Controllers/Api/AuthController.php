@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Validator;
 use App\Models\User;
+use File;
 
 class AuthController extends BaseController
 {
@@ -25,6 +26,14 @@ class AuthController extends BaseController
         $validator = Validator::make($input, [
             'name' => 'required',
         ]);
+        
+        if ($request->hasFile('photo_profile')){
+            $file = $request->file('photo_profile');
+            $destinationPatch = public_path().'/assets/img/photo_profile/';
+            $filename = str_random(6).'_'.$file->getClientOriginalName();
+            $uploadSucces = $file->move($destinationPatch, $filename);
+            $user->photo_profile = $filename;
+        }
 
         if($validator->fails()){
             return response()
@@ -38,12 +47,42 @@ class AuthController extends BaseController
         $user->name = $request->name;
         $user->save();
         return $this->sendResponse($user, 'Data user berhasil diubah.');
-    } 
+    }
 
     public function listReviews(Request $request) {
         $user = Auth::user();
         $reviews = $user->reviews()->with('book')->paginate()->withQueryString();
         return $this->sendResponse($reviews, 'Data review berhasil didapatkan.');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password'=>'required',
+            'password'=>'required|min:6|max:100',
+            'confirm_password'=>'required|same:password'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'=>'Validations fails',
+                'errors'=>$validator->errors()->first()
+            ],422);
+        }
+
+        $user=$request->user();
+        if(Hash::check($request->old_password,$user->password)){
+            $user->update([
+                'password'=>Hash::make($request->password)
+            ]);
+            return response()->json([
+                'message'=>'Password successfully updated',
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'Old password does not matched',
+            ],400);
+        }
+
     }
 
     public function register(Request $request)
@@ -93,7 +132,7 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        auth('sanctum')->user()->tokens()->delete();
 
         return [
             'message' => 'You have successfully logged out and the token was successfully deleted'

@@ -15,7 +15,7 @@ class Review extends Model
         'rating' => 'float'
     ];
 
-    protected $fillable = ['id','review_content','rating','id_book','id_user', 'created_at', 'updated_at'];
+    protected $fillable = ['id','slug','review_content','rating','id_book','id_user', 'created_at', 'updated_at'];
 
     public function book(){
         return $this->belongsTo('App\Models\Book','id_book');

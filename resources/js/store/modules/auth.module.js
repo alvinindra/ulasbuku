@@ -25,6 +25,18 @@ const mutations = {
 }
 
 const actions = {
+    updateProfile ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/profile', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     getProfile ({ commit }) {
         return new Promise((resolve, reject) => {
             apiClient
@@ -74,8 +86,44 @@ const actions = {
                 })
         })
     },
+    postForgotPassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/forgot-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
+    resetPassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/reset-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
+    changePassword ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            apiClient
+                .post('/profile/change-password', payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    },
     logout ({ commit }) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             apiClient
                 .post('/logout')
                 .then(response => {
@@ -83,6 +131,7 @@ const actions = {
                     resolve(response)
                 })
                 .catch(error => {
+                    commit('SET_LOGOUT')
                     reject(error)
                 })
         })

@@ -11,60 +11,38 @@
 						<div class="login-wrap p-4 p-md-5">
 							<div class="d-flex">
 								<div class="w-100">
-									<h3 class="mb-4 font-title">Masuk</h3>
+									<h3 class="mb-4 text-nowrap font-title">Lupa Password?</h3>
 								</div>
 							</div>
 							<form
 								class="signin-form"
-								@submit.prevent="login"
+								@submit.prevent="handleForgotPassword"
 							>
+								<div class="text-secondary">Masukkan alamat email yang terdaftar untuk atur ulang kata sandi!</div>
 								<div class="form-group mt-3">
-									<label
-										class="form-control-placeholder"
-										for="email"
-									>Email</label>
 									<input
 										type="text"
-										v-model="formLogin.email"
+										v-model="email"
 										class="form-control"
 										required
 									>
-								</div>
-								<div class="form-group">
-									<label
-										class="form-control-placeholder"
-										for="password"
-									>Password</label>
-									<input
-										id="password-field"
-										v-model="formLogin.password"
-										type="password"
-										class="form-control"
-										required
-									>
-
-									<span
-										toggle="#password-field"
-										class="fa fa-fw fa-eye field-icon toggle-password"
-									></span>
 								</div>
 								<div class="form-group">
 									<button
 										type="submit"
 										class="form-control btn btn-primary rounded submit px-3"
-									>Masuk</button>
+									>Kirim</button>
 								</div>
 							</form>
-							<p class="text-center">Belum punya akun?
+							<p class="text-center">
+								<router-link to="/login">
+									Masuk
+								</router-link>
+								atau
 								<router-link to="/register">
 									Daftar Akun
 								</router-link>
 							</p>
-							<div class="text-center">
-								<router-link to="/forget-password">
-									Lupa Password
-								</router-link>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -78,34 +56,27 @@ import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			formLogin: {
-				email: "",
-				password: "",
-			},
+			email: "",
 		};
 	},
 	methods: {
-		...mapActions("auth", ["postLogin", "getProfile"]),
-		async login() {
+		...mapActions("auth", ["postForgotPassword", "getProfile"]),
+		async handleForgotPassword() {
 			try {
 				const payload = {
-					email: this.formLogin.email,
-					password: this.formLogin.password,
+					email: this.email,
 				};
-				const res = await this.postLogin(payload);
-				this.getProfile();
-				localStorage.setItem("token", res.data.access_token);
+				const res = await this.postForgotPassword(payload);
 				this.$message({
 					showClose: true,
-					message: "Anda telah berhasil masuk",
+					message: res.data.status,
 					type: "success",
 				});
-				this.$router.push("/");
 			} catch (error) {
 				console.error(error);
 				this.$message({
 					showClose: true,
-					message: "Terjadi kesalahan",
+					message: error.response.data.errors.email[0],
 					type: "error",
 				});
 			}
