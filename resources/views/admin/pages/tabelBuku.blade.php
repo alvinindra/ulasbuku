@@ -32,7 +32,7 @@
 
                 </div>
                 <div class="card-header customColor">
-                    <a href="{{ url('admin/book/create') }}" role="button" class="btn btn-primary ms-6">Tambah Bukus</a>
+                    <a href="{{ url('admin/book/create') }}" role="button" class="btn btn-primary ms-6">Tambah Buku</a>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" id="datatable-basic">
@@ -54,12 +54,13 @@
                                 <th scope="row">{{ ++$i }}</th>
                                 <td><img src="{{ asset('assets/img/cover/' .$data->cover)}}" width="150px;"
                                         style="margin-right: 5px;"></td>
-                                <td>{{ $data->title}}</td>
+                                <td style="max-width: 100px; white-space: normal;">{{ $data->title}}</td>
                                 <td
                                     style="word-wrap: break-word;min-width: 300px;max-width: 300px; white-space: normal !important; ">
                                     {{ $data->description}}</td>
-                                <td>{{ $data->category->name_category}}</td>
-                                <td>{{ $data->author->name_author}}</td>
+                                <td style="max-width: 80px; white-space: normal;">{{ $data->category->name_category}}
+                                </td>
+                                <td style="max-width: 80px; white-space: normal;">{{ $data->author->name_author}}</td>
                                 <td>{{ $data->publisher->name_publisher}}</td>
                                 <td>
                                     <form action="{{ route('book.destroy',$data->id) }}" method="POST">
