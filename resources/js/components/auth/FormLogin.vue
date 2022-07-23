@@ -105,7 +105,7 @@ export default {
 				console.error(error);
 				this.$message({
 					showClose: true,
-					message: "Terjadi kesalahan",
+					message: error.response.data.message,
 					type: "error",
 				});
 			}
