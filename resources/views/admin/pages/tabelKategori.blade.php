@@ -7,7 +7,7 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Tabel Kategori') }} 
+                {{ __('Kelola Kategori') }} 
             @endslot
 
             <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelKategori') }}">{{ __('Kelola Kategori') }}</a></li>
@@ -31,53 +31,32 @@
                         
                     </div>
                     <div class="card-header">
-                        <a href="{{ route('admin.page.index','formKategori') }}" role="button" class="btn btn-primary ms-6">Tambah Kategori</a>
+                        <a href="{{ url('admin/category/create') }}" role="button" class="btn btn-primary ms-6">Tambah Kategori</a>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
-                            <thead class="thead-light">
+                            <thead>
                                 <tr>
-                                    <th>action</th>
-                                    <th>id</th>
-                                    <th>name_category</th>
-                                    <th>created_at</th>
-                                    <th>updated_at</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Category</th>
+                                  <th scope="col">Action</th>
                                 </tr>
-                            </thead>
-                            
-                            <tbody>
+                              </thead>
+                              <tbody>
+                                  @foreach ($category as $data)
                                 <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Psikologi</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
+                                  <th scope="row">{{ ++$i }}</th>
+                                  <td>{{ $data->name_category}}</td>
+                                  <td>
+                                  <form action="{{ route('category.destroy',$data->id) }}" method="POST">
+                                  <a class="btn btn-primary btn-sm" href="{{ route('category.edit',$data->id) }}">Edit</a> |
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger btn-sm">Delete</button onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                  </form></td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>2</td>
-                                    <td>Ensiklopedia</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Novel</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
-                                </tr>
-                        
-                            </tbody>
+                                @endforeach
+                              </tbody>
                         </table>
                     </div>
                 </div>

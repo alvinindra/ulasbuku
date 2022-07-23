@@ -7,13 +7,19 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Tabel Buku') }} 
+                {{ __('Kelola Buku') }} 
             @endslot
 
             <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelBuku') }}">{{ __('Kelola Buku') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Tabel Buku') }}</li>
         @endcomponent 
     @endcomponent
+
+    @if ($message = Session::get('succes'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
     
     <div class="container-fluid mt--6">
         <!-- Table -->
@@ -31,72 +37,42 @@
                         
                     </div>
                     <div class="card-header customColor">
-                        <a href="{{ route('admin.page.index','formBuku') }}" role="button" class="btn btn-primary ms-6">Tambah Buku</a>
+                        <a href="{{ url('admin/book/create') }}" role="button" class="btn btn-primary ms-6">Tambah Buku</a>
                     </div>
                     <div class="table-responsive py-4">
-                        <table class="table table-flush" id="datatable-basic">
-                            <thead class="thead-light">
+                        <table class="table" id="">
+                            <thead>
                                 <tr>
-                                    <th>action</th>
-                                    <th>id</th>
-                                    <th>title</th>
-                                    <th>description</th>
-                                    <th>cover</th>
-                                    <th>id_category</th>
-                                    <th>id_author</th>
-                                    <th>id_publisher</th>
-                                    <th>created_at</th>
-                                    <th>updated_at</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Cover</th>
+                                  <th scope="col">Title</th>
+                                  <th scope="col">Description</th>
+                                  <th scope="col">Category</th>
+                                  <th scope="col">Author</th>
+                                  <th scope="col">Publisher</th>
+                                  <th scope="col">Action</th>
                                 </tr>
-                            </thead>
-                            
-                            <tbody>
+                              </thead>
+                              <tbody>
+                                  @foreach ($book as $data)
                                 <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>Lorem ipsum Neque porro quisquam est qui dolorem </td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
+                                  <th scope="row">{{ ++$i }}</th>
+                                  <td><img src="{{ asset('assets/img/cover/' .$data->cover)}}" width="150px;" style="margin-right: 5px;"></td>
+                                  <td>{{ $data->title}}</td>
+                                  <td style="word-wrap: break-word;min-width: 300px;max-width: 300px; white-space: normal !important; ">{{ $data->description}}</td>
+                                  <td>{{ $data->category->name_category}}</td>
+                                  <td>{{ $data->author->name_author}}</td>
+                                  <td>{{ $data->publisher->name_publisher}}</td>
+                                  <td>
+                                  <form action="{{ route('book.destroy',$data->id) }}" method="POST">
+                                  <a class="btn btn-primary btn-sm" href="{{ route('book.edit',$data->id) }}">Edit</a> |
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger btn-sm">Delete</button onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                  </form></td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>2</td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>Lorem ipsum Neque porro quisquam est qui dolorem </td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>3</td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>Lorem ipsum Neque porro quisquam est qui dolorem </td>
-                                    <td>Lorem Ipsum</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                </tr>
-                            </tbody>
+                                @endforeach
+                              </tbody>
                         </table>
                     </div>
                 </div>

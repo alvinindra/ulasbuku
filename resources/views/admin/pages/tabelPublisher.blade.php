@@ -7,7 +7,7 @@
     @component('admin.layouts.headers.auth') 
         @component('admin.layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Tabel Publisher') }} 
+                {{ __('Kelola Publisher') }} 
             @endslot
 
             <li class="breadcrumb-item"><a href="{{ route('admin.page.index', 'tabelPublisher') }}">{{ __('Kelola Publisher') }}</a></li>
@@ -31,53 +31,32 @@
                         
                     </div>
                     <div class="card-header">
-                        <a href="{{ route('admin.page.index','formPublisher') }}" role="button" class="btn btn-primary ms-6">Tambah Publisher</a>
+                        <a href="{{ url('/admin/publisher/create') }}" role="button" class="btn btn-primary ms-6">Tambah Publisher</a>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
-                            <thead class="thead-light">
+                            <thead>
                                 <tr>
-                                    <th>action</th>
-                                    <th>id</th>
-                                    <th>name_publisher</th>
-                                    <th>created_at</th>
-                                    <th>updated_at</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">publisher</th>
+                                  <th scope="col">Action</th>
                                 </tr>
-                            </thead>
-                            
-                            <tbody>
+                              </thead>
+                              <tbody>
+                                  @foreach ($publisher as $data)
                                 <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Gramedia Pustaka Utama</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
+                                  <th scope="row">{{ ++$i }}</th>
+                                  <td>{{ $data->name_publisher}}</td>
+                                  <td>
+                                  <form action="{{ route('publisher.destroy',$data->id) }}" method="POST">
+                                  <a class="btn btn-primary btn-sm" href="{{ route('publisher.edit',$data->id) }}">Edit</a> |
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger btn-sm">Delete</button onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                  </form></td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>2</td>
-                                    <td>Mizan Pustaka</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" role="button" class="btn btn-info btn-sm">Ubah</a>
-                                        <a href="#" role="button" class="btn btn-danger btn-sm">Hapus</a>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Penerbit Republika.</td>
-                                    <td>2012-06-06 05:43:45</td>
-                                    <td>2012-06-06 05:43:45 </td>
-                                </tr>
-                        
-                            </tbody>
+                                @endforeach
+                              </tbody>
                         </table>
                     </div>
                 </div>

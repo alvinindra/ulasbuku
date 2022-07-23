@@ -22,7 +22,7 @@ class BookController extends Controller
     public function index()
     {
         $book = Book::with('category','author','publisher')->get();
-        return view('book.index',compact('book'))->with('i', (request()->input('page', 1) -1) * 5);
+        return view('admin.pages.tabelBuku',compact('book'))->with('i', (request()->input('page', 1) -1) * 5);
     }
 
     /**
@@ -36,7 +36,7 @@ class BookController extends Controller
         $author = Author::all();
         $publisher = Publisher::all();
 
-        return view('book.create',compact('category','author','publisher'));
+        return view('admin.pages.formBuku',compact('category','author','publisher'));
     }
 
     /**
@@ -99,7 +99,7 @@ class BookController extends Controller
      $author = Author::all();
      $publisher = Publisher::all();
 
-     return view('book.edit', compact('book','category','author','publisher'));
+     return view('admin.pages.editBuku', compact('book','category','author','publisher'));
     }
 
     /**

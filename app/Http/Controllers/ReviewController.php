@@ -16,7 +16,7 @@ class ReviewController extends Controller
     public function index()
     {
         $review = Review::with('book','user')->get();
-        return view('review.index',compact('review'))->with('i', (request()->input('page', 1) -1) * 10);
+        return view('admin.pages.tabelReview',compact('review'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**

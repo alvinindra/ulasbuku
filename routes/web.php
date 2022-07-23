@@ -21,7 +21,7 @@ use App\Http\Controllers\ReviewController;
 */
 Route::get('admin',  [AdminController::class, 'index'])->name('admin');
 // Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
-// Route::get('{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
+Route::get('admin/fajar/{page}', [PageController::class, 'indexAdmin'])->name('admin.page.index');
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -54,6 +54,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin|member']
     Route::resource('book', BookController::class);
     Route::resource('review', ReviewController::class);
 });
+
+// Route::group(['prefix' => 'admin/fajar', 'middleware' => ['auth', 'role:admin|member']], function () {
+//     Route::resource('category', CategoryController::class);
+//     Route::resource('author', AuthorController::class);
+//     Route::resource('tabelPublisher', PublisherController::class);
+//     Route::resource('book', BookController::class);
+//     Route::resource('review', ReviewController::class);
+// });
 
 // Front-End Routing
 Route::get('/{vue_capture?}', function () {

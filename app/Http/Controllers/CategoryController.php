@@ -27,8 +27,8 @@ class CategoryController extends Controller
             return redirect()->to('/');
         }
 
-        $category = Category::paginate(10);
-        return view('category.index',compact('category'))->with('i', (request()->input('page', 1) -1) * 10);
+        $category = Category::paginate(100);
+        return view('admin.pages.tabelKategori',compact('category'))->with('i', (request()->input('page', 1) -1) * 10);
     }
 
     /**
@@ -38,7 +38,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        return view('admin.pages.formKategori');
     }
 
     /**
@@ -81,7 +81,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        return view('category.edit', compact('category'));
+        return view('admin.pages.editKategori', compact('category'));
     }
 
     /**
