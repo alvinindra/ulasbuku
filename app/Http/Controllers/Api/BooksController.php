@@ -24,6 +24,7 @@ class BooksController extends BaseController
         $booksQuery->withAvg('reviews as total_rating', 'rating');
         $booksQuery->withCount('reviews as total_reviews');
         $booksQuery->with('author:id,name_author');
+        $booksQuery->with('publisher:id,name_publisher');
         $booksQuery->with('category:id,name_category');
         $booksQuery->when($request->search, function($q) use ($request) {
             $q->where('title','like',"%{$request->search}%");
@@ -94,6 +95,7 @@ class BooksController extends BaseController
         ->withAvg('reviews as total_rating', 'rating')
         ->withCount('reviews as total_reviews')
         ->with('author:id,name_author')
+        ->with('publisher:id,name_publisher')
         ->when($user, function($q) use ($slug) {
             $q->with('is_reviewed');
         })->first();
